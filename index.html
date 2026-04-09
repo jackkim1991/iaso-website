@@ -3,40 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IASO Medical | Coming Soon</title>
+    <title>IASO Medical | Direct Primary Care</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-sans { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-900 font-sans">
+<body class="bg-[#fcfdfd] text-slate-900 font-sans leading-relaxed">
 
-    <nav class="p-6 max-w-7xl mx-auto flex justify-between items-center">
-        <div class="text-2xl font-bold tracking-tight text-blue-900">IASO<span class="text-blue-500">MEDICAL</span></div>
-        <div class="space-x-6 hidden md:block text-sm font-medium text-slate-600">
-            <a href="#" class="hover:text-blue-600">Mission</a>
-            <a href="#" class="hover:text-blue-600">Services</a>
-            <a href="#" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Contact</a>
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <img src="images/logo-pure-healing.png" alt="IASO Medical Logo" class="h-10 w-auto">
+                <div class="text-xl font-bold tracking-tight text-slate-800 uppercase">
+                    Iaso <span class="text-blue-600 font-medium">Medical</span>
+                </div>
+            </div>
+            <div class="space-x-8 hidden md:flex text-sm font-semibold tracking-wide uppercase text-slate-600">
+                <a href="#about" class="hover:text-blue-600 transition">Our Model</a>
+                <a href="#benefits" class="hover:text-blue-600 transition">Benefits</a>
+                <a href="#" class="px-5 py-2.5 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-600 hover:text-white transition duration-300">
+                    Patient Portal
+                </a>
+            </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-6 py-20 text-center md:py-32">
-        <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 mb-6">
-            The Future of <span class="text-blue-600">Personalized Care</span>.
-        </h1>
-        <p class="text-xl text-slate-600 max-w-2xl mx-auto mb-10">
-            IASO Medical is a next-generation healthcare group focused on Direct Primary Care, innovative pharmaceuticals, and advanced medical devices.
-        </p>
-        <div class="flex flex-col md:flex-row justify-center gap-4">
-            <div class="px-8 py-4 bg-white border border-slate-200 rounded-xl shadow-sm font-semibold">
-                Opening Late 2026
+    <section class="relative bg-white pt-20 pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-blue-600 font-bold uppercase tracking-widest text-sm mb-4">Direct Primary Care</h2>
+                <h1 class="text-5xl md:text-6xl font-serif text-slate-900 leading-tight mb-8">
+                    Healthcare that puts the <span class="italic text-blue-600">patient</span> first.
+                </h1>
+                <p class="text-lg text-slate-600 mb-10 leading-relaxed max-w-lg">
+                    IASO Medical is a physician-led Direct Primary Care practice in Washington. We've removed the barriers of insurance to provide deeply personalized, accessible, and transparent healthcare.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#" class="px-8 py-4 bg-slate-900 text-white rounded-full font-semibold shadow-xl hover:bg-blue-600 transition duration-300 text-center">
+                        Join the Waitlist
+                    </a>
+                    <a href="#about" class="px-8 py-4 bg-white border border-slate-200 text-slate-700 rounded-full font-semibold hover:bg-slate-50 transition duration-300 text-center">
+                        Learn About DPC
+                    </a>
+                </div>
             </div>
-            <div class="px-8 py-4 bg-slate-900 text-white rounded-xl shadow-lg font-semibold cursor-not-allowed">
-                Join the Waitlist (Coming Soon)
+            <div class="relative">
+                <div class="aspect-square bg-slate-100 rounded-2xl overflow-hidden shadow-2xl rotate-3">
+                    <img src="https://images.unsplash.com/photo-1629909608132-34900df46719?auto=format&fit=crop&q=80&w=800" alt="Modern Medical Office" class="object-cover w-full h-full opacity-80">
+                </div>
+                <div class="absolute -bottom-6 -left-6 bg-blue-600 p-8 rounded-2xl shadow-xl text-white hidden lg:block">
+                    <p class="font-serif text-2xl italic">"Healing is a process."</p>
+                    <p class="text-sm uppercase tracking-tighter mt-2 opacity-80">— IASO, Goddess of Recovery</p>
+                </div>
             </div>
         </div>
-    </main>
+    </section>
 
-    <footer class="border-t border-slate-200 mt-20 py-10 text-center text-slate-500 text-sm">
-        &copy; 2026 IASO Medical Group. All rights reserved.
-    </footer>
+    <section id="benefits" class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6 text-center mb-20">
+            <h2 class="font-serif text-4xl md:text-5xl text-slate-900 mb-4">A Better Way to Stay Well</h2>
+            <p class="text-slate-600 max-w-xl mx-auto">By opting out of insurance billing, we provide a membership-based model that guarantees you time and attention.</p>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+            <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-4">Same-Day Access</h3>
+                <p class="text-slate-500">Long wait times are a thing of the past. Reach your physician directly via text, email, or video.</p>
+            </div>
 
-</body>
-</html>
+            <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-4">Transparent Pricing</h3>
+                <p class="text-slate-500">One simple monthly membership. No copays, no hidden fees, and no surprise medical bills.</p>
+            </div>
+
+            <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.3
