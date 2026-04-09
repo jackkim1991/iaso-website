@@ -1,66 +1,263 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>IASO Medical | Direct Primary Care</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
     <script>
+
         tailwind.config = {
+
             theme: {
+
                 extend: {
+
                     colors: {
+
                         gold: {
+
                             light: '#E5C76B',
+
                             DEFAULT: '#D4AF37',
+
                             dark: '#B8860B',
+
                         },
+
                         onyx: '#121212',
+
                     }
+
                 }
+
             }
+
         }
+
     </script>
+
     <style>
+
         .font-serif { font-family: 'Playfair Display', serif; }
+
         .font-sans { font-family: 'Inter', sans-serif; }
+
         .gold-gradient {
+
             background: linear-gradient(135deg, #D4AF37 0%, #F1D382 50%, #B8860B 100%);
+
             -webkit-background-clip: text;
+
             -webkit-text-fill-color: transparent;
+
         }
+
     </style>
+
 </head>
+
 <body class="bg-onyx text-slate-200 font-sans leading-relaxed">
 
+
+
     <nav class="sticky top-0 z-50 bg-onyx/90 backdrop-blur-md border-b border-white/10">
+
         <div class="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center">
-            <div class="flex items-center">
-                <img src="images/Logo.jpg" alt="IASO Medical" class="h-16 w-auto brightness-0 invert opacity-90">
+
+            <div class="flex items-center space-x-4">
+
+                <img src="images/Logo.jpg" alt="IASO Medical Logo" class="h-14 w-auto brightness-0 invert opacity-90">
+
+                <div class="text-2xl font-bold tracking-widest text-white uppercase">
+
+                    Iaso <span class="text-gold">Medical</span>
+
+                </div>
+
             </div>
+
             <div class="space-x-8 hidden md:flex text-xs font-bold tracking-[0.2em] uppercase text-slate-300">
+
                 <a href="#about" class="hover:text-gold transition">Our Model</a>
+
                 <a href="#benefits" class="hover:text-gold transition">Benefits</a>
+
                 <a href="#" class="px-6 py-3 border border-gold text-gold rounded-full hover:bg-gold hover:text-onyx transition duration-500">
+
                     Patient Portal
+
                 </a>
+
             </div>
+
         </div>
+
     </nav>
 
+
+
     <section class="relative pt-20 pb-24 overflow-hidden border-b border-white/5">
+
         <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+
             <div>
+
                 <h2 class="text-gold font-bold uppercase tracking-[0.3em] text-xs mb-6">Direct Primary Care</h2>
+
                 <h1 class="text-5xl md:text-7xl font-serif text-white leading-tight mb-8">
+
                     Healthcare that puts the <span class="italic gold-gradient">patient</span> first.
+
                 </h1>
+
                 <p class="text-lg text-slate-400 mb-10 leading-relaxed max-w-lg font-light">
+
                     IASO Medical is a physician-led Direct Primary Care practice in Washington. We've removed the barriers of insurance to provide deeply personalized, accessible, and transparent healthcare.
+
                 </p>
+
                 <div class="flex flex-col sm:flex-row gap-6">
+
                     <a href="#" class="px-10 py-4 bg-gold text-onyx rounded-full font-bold shadow-2xl hover:bg-white transition duration-300 text-center uppercase text-sm tracking-widest">
+
                         Join the Waitlist
+
                     </a>
-                    <a href="#about" class="px-10 py-4 bg-transparent border border-white/20 text-white rounded-full font-bold hover:bg-white/5 transition duration-300 text-center uppercase text-sm tracking
+
+                    <a href="#about" class="px-10 py-4 bg-transparent border border-white/20 text-white rounded-full font-bold hover:bg-white/5 transition duration-300 text-center uppercase text-sm tracking-widest">
+
+                        Learn About DPC
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            
+
+            <div class="relative">
+
+                <div class="aspect-[4/5] bg-slate-800 rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(212,175,55,0.1)] relative z-10 border border-white/10">
+
+                    <img src="images/Background.jpg" alt="IASO Medical Interior" class="object-cover w-full h-full hover:scale-105 transition duration-1000">
+
+                </div>
+
+                <div class="absolute -bottom-8 -left-8 bg-white/5 backdrop-blur-xl p-8 rounded-2xl border border-white/10 shadow-2xl hidden lg:block z-20">
+
+                    <p class="font-serif text-2xl italic text-gold">"Healing is a process."</p>
+
+                    <p class="text-xs uppercase tracking-[0.2em] mt-3 text-slate-400">— IASO, Goddess of Recovery</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <section id="benefits" class="py-32 bg-[#0d0d0d]">
+
+        <div class="max-w-7xl mx-auto px-6 text-center mb-24">
+
+            <h2 class="font-serif text-4xl md:text-5xl text-white mb-6">A Better Way to Stay Well</h2>
+
+            <div class="w-24 h-1 bg-gold mx-auto mb-8"></div>
+
+            <p class="text-slate-400 max-w-xl mx-auto font-light leading-loose text-lg">By opting out of insurance billing, we provide a membership-based model that guarantees you time and attention.</p>
+
+        </div>
+
+        
+
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-12">
+
+            <div class="group bg-onyx p-12 rounded-3xl border border-white/5 hover:border-gold/30 transition duration-500">
+
+                <div class="w-16 h-16 bg-gold/10 text-gold rounded-full flex items-center justify-center mb-8 group-hover:bg-gold group-hover:text-onyx transition duration-500">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+
+                    </svg>
+
+                </div>
+
+                <h3 class="text-2xl font-serif text-white mb-4 italic">Same-Day Access</h3>
+
+                <p class="text-slate-500 font-light leading-relaxed">Reach your physician directly via text, email, or video. No more waiting weeks for an appointment.</p>
+
+            </div>
+
+
+
+            <div class="group bg-onyx p-12 rounded-3xl border border-white/5 hover:border-gold/30 transition duration-500">
+
+                <div class="w-16 h-16 bg-gold/10 text-gold rounded-full flex items-center justify-center mb-8 group-hover:bg-gold group-hover:text-onyx transition duration-500">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+
+                    </svg>
+
+                </div>
+
+                <h3 class="text-2xl font-serif text-white mb-4 italic">Transparent Pricing</h3>
+
+                <p class="text-slate-500 font-light leading-relaxed">One simple monthly membership. No copays, no hidden fees, and no surprise medical bills.</p>
+
+            </div>
+
+
+
+            <div class="group bg-onyx p-12 rounded-3xl border border-white/5 hover:border-gold/30 transition duration-500">
+
+                <div class="w-16 h-16 bg-gold/10 text-gold rounded-full flex items-center justify-center mb-8 group-hover:bg-gold group-hover:text-onyx transition duration-500">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+
+                    </svg>
+
+                </div>
+
+                <h3 class="text-2xl font-serif text-white mb-4 italic">Holistic Care</h3>
+
+                <p class="text-slate-500 font-light leading-relaxed">Focusing on the root cause of illness, not just treating symptoms. We are your partner in recovery.</p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <footer class="py-16 border-t border-white/5 text-center bg-onyx">
+
+        <p class="text-slate-600 text-[10px] tracking-[0.4em] uppercase">© 2026 IASO Medical. All Rights Reserved.</p>
+
+    </footer>
+
+
+
+</body>
+
+</html>
