@@ -1,21 +1,71 @@
-<section class="py-32">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <h1 class="text-5xl font-serif text-white mb-6">Transparent Pricing</h1>
-            <p class="text-slate-400 max-w-xl mx-auto font-light mb-16">No hidden fees, no copays. Just simple, predictable monthly memberships.</p>
-            
-            <div class="max-w-lg mx-auto bg-slate-800/50 border border-gold/30 rounded-3xl p-12 relative overflow-hidden">
-                <div class="absolute top-0 right-0 bg-gold text-onyx text-xs font-bold px-4 py-1 rounded-bl-xl uppercase tracking-widest">Most Popular</div>
-                <h3 class="text-2xl text-white mb-2 font-serif">Adult Membership</h3>
-                <div class="text-5xl font-bold text-gold mb-6">$99<span class="text-lg text-slate-500 font-normal">/mo</span></div>
-                
-                <ul class="text-left space-y-4 text-slate-300 font-light mb-10">
-                    <li class="flex items-center"><span class="text-gold mr-3">✔</span> 24/7 Access to your doctor</li>
-                    <li class="flex items-center"><span class="text-gold mr-3">✔</span> Same-day or next-day visits</li>
-                    <li class="flex items-center"><span class="text-gold mr-3">✔</span> Wholesale lab and medication pricing</li>
-                    <li class="flex items-center"><span class="text-gold mr-3">✔</span> Annual comprehensive physical</li>
-                </ul>
-                
-                <a href="#" class="block w-full py-4 bg-gold text-onyx rounded-full font-bold hover:bg-white transition duration-300 uppercase tracking-widest text-sm">Enroll Now</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership | IASO Medical</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { gold: { light: '#E5C76B', DEFAULT: '#D4AF37', dark: '#B8860B', }, onyx: '#121212', } } }
+        }
+    </script>
+    <style>
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-sans { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-onyx text-slate-200 font-sans leading-relaxed flex flex-col min-h-screen">
+
+    <nav class="sticky top-0 z-50 bg-onyx/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-4 group">
+                <img src="images/Logo.png" alt="IASO Medical Logo" class="h-20 w-auto transition-transform duration-500 group-hover:scale-105">
+                <div class="text-2xl font-bold tracking-widest text-white uppercase transition-colors duration-500 group-hover:text-gold">
+                    Iaso <span class="text-gold transition-colors duration-500 group-hover:text-white">Medical</span>
+                </div>
+            </a>
+            <div class="space-x-6 hidden lg:flex items-center text-[10px] xl:text-xs font-bold tracking-[0.15em] uppercase text-slate-300">
+                <a href="index.html" class="hover:text-gold transition">Home</a>
+                <a href="about.html" class="hover:text-gold transition">About</a>
+                <a href="providers.html" class="hover:text-gold transition">Meet Your Providers</a>
+                <a href="services.html" class="hover:text-gold transition">Services</a>
+                <a href="membership.html" class="text-gold transition">Membership</a>
+                <a href="faq.html" class="hover:text-gold transition">FAQ</a>
+                <a href="contact.html" class="hover:text-gold transition">Contact</a>
+                <a href="#" class="ml-4 px-6 py-3 border border-gold text-gold rounded-full hover:bg-gold hover:text-onyx transition duration-500">Patient Portal</a>
             </div>
         </div>
-    </section>
+    </nav>
+
+    <main class="flex-grow">
+        <section class="py-32">
+            <div class="max-w-7xl mx-auto px-6 text-center">
+                <h1 class="text-5xl font-serif text-white mb-6">Transparent Pricing</h1>
+                <p class="text-slate-400 max-w-xl mx-auto font-light mb-16">No hidden fees, no copays. Just simple, predictable monthly memberships.</p>
+                
+                <div class="max-w-lg mx-auto bg-slate-800/50 border border-gold/30 rounded-3xl p-12 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-gold text-onyx text-xs font-bold px-4 py-1 rounded-bl-xl uppercase tracking-widest">Most Popular</div>
+                    <h3 class="text-2xl text-white mb-2 font-serif">Adult Membership</h3>
+                    <div class="text-5xl font-bold text-gold mb-6">$99<span class="text-lg text-slate-500 font-normal">/mo</span></div>
+                    
+                    <ul class="text-left space-y-4 text-slate-300 font-light mb-10">
+                        <li class="flex items-center"><span class="text-gold mr-3">✔</span> 24/7 Access to your doctor</li>
+                        <li class="flex items-center"><span class="text-gold mr-3">✔</span> Same-day or next-day visits</li>
+                        <li class="flex items-center"><span class="text-gold mr-3">✔</span> Wholesale lab and medication pricing</li>
+                        <li class="flex items-center"><span class="text-gold mr-3">✔</span> Annual comprehensive physical</li>
+                    </ul>
+                    
+                    <a href="#" class="block w-full py-4 bg-gold text-onyx rounded-full font-bold hover:bg-white transition duration-300 uppercase tracking-widest text-sm">Enroll Now</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-16 border-t border-white/5 text-center bg-onyx mt-auto">
+        <p class="text-slate-600 text-[10px] tracking-[0.4em] uppercase">© 2026 IASO Medical. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
