@@ -1,20 +1,87 @@
-<section class="py-32">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h1 class="text-5xl font-serif text-white mb-6">Meet Your Providers</h1>
-                <div class="w-24 h-1 bg-gold mx-auto"></div>
-            </div>
-            
-            <div class="max-w-3xl mx-auto bg-slate-800/50 p-10 rounded-3xl border border-white/10 flex flex-col md:flex-row gap-10 items-center">
-                <div class="w-48 h-48 bg-slate-700 rounded-full flex-shrink-0">
-                    </div>
-                <div>
-                    <h3 class="text-3xl font-serif text-gold mb-2">Dr. Jane Doe, MD</h3>
-                    <p class="text-sm uppercase tracking-widest text-slate-500 mb-6">Board Certified Family Medicine</p>
-                    <p class="text-slate-400 font-light leading-relaxed">
-                        Dr. Doe is passionate about longevity, preventative medicine, and building lasting relationships with her patients. After years in the traditional system, she founded IASO Medical to practice medicine the way it was meant to be.
-                    </p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Providers | IASO Medical</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { gold: { light: '#E5C76B', DEFAULT: '#D4AF37', dark: '#B8860B', }, onyx: '#121212', } } }
+        }
+    </script>
+    <style>
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-sans { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-onyx text-slate-200 font-sans leading-relaxed flex flex-col min-h-screen">
+
+    <nav class="sticky top-0 z-50 bg-onyx/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-4 group">
+                <img src="images/Logo.png" alt="IASO Medical Logo" class="h-20 w-auto transition-transform duration-500 group-hover:scale-105">
+                <div class="text-2xl font-bold tracking-widest text-white uppercase transition-colors duration-500 group-hover:text-gold">
+                    Iaso <span class="text-gold transition-colors duration-500 group-hover:text-white">Medical</span>
                 </div>
+            </a>
+            <div class="space-x-6 hidden lg:flex items-center text-[10px] xl:text-xs font-bold tracking-[0.15em] uppercase text-slate-300">
+                <a href="index.html" class="hover:text-gold transition">Home</a>
+                <a href="about.html" class="hover:text-gold transition">About</a>
+                <a href="providers.html" class="text-gold transition">Meet Your Providers</a>
+                <a href="services.html" class="hover:text-gold transition">Services</a>
+                <a href="membership.html" class="hover:text-gold transition">Membership</a>
+                <a href="faq.html" class="hover:text-gold transition">FAQ</a>
+                <a href="contact.html" class="hover:text-gold transition">Contact</a>
+                <a href="#" class="ml-4 px-6 py-3 border border-gold text-gold rounded-full hover:bg-gold hover:text-onyx transition duration-500">Patient Portal</a>
             </div>
         </div>
-    </section>
+    </nav>
+
+    <main class="flex-grow">
+        <section class="py-32">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h1 class="text-5xl font-serif text-white mb-6">Meet Your Providers</h1>
+                    <div class="w-24 h-1 bg-gold mx-auto"></div>
+                </div>
+                
+                <div class="max-w-4xl mx-auto bg-slate-800/50 p-10 rounded-3xl border border-white/10 flex flex-col md:flex-row gap-10 items-start">
+                    <div class="w-48 h-48 bg-slate-700 rounded-full flex-shrink-0 overflow-hidden border border-white/10">
+                        </div>
+                    
+                    <div>
+                        <h3 class="text-3xl font-serif text-gold mb-4">Jin Bum (Jack) Kim, MD</h3>
+                        
+                        <div class="mb-8 space-y-2">
+                            <p class="text-xs uppercase tracking-widest text-slate-300"><span class="text-slate-500">Hometown:</span> Burnaby, British Columbia, Canada</p>
+                            <p class="text-xs uppercase tracking-widest text-slate-300"><span class="text-slate-500">Undergrad:</span> University of British Columbia</p>
+                            <p class="text-xs uppercase tracking-widest text-slate-300"><span class="text-slate-500">Medical School:</span> University College Dublin</p>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <h4 class="text-white font-serif italic text-lg mb-2">What drew me to Family Medicine:</h4>
+                            <p class="text-slate-400 font-light leading-relaxed">
+                                The prospect of using interdisciplinary knowledge of medicine and diagnostic skills of internal medicine drew me towards family medicine. I am eager to use my experience and education in collaboration with other physicians, healthcare professionals, patients, and their families to make a multidisciplinary diagnosis which puts the patients at the core. Being a family physician provides me with an opportunity to advocate for underserved populations, so they receive the necessary care that they deserve. Family medicine emphasizes the primary prevention of diseases and longitudinal care for patients and their families, where my passion lies.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-white font-serif italic text-lg mb-2">What I like to do in my free time:</h4>
+                            <p class="text-slate-400 font-light leading-relaxed">
+                                I will be usually found at the gym during my free time. I am also interested in photography, music, baking, traveling, and camping.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-16 border-t border-white/5 text-center bg-onyx mt-auto">
+        <p class="text-slate-600 text-[10px] tracking-[0.4em] uppercase">© 2026 IASO Medical. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
