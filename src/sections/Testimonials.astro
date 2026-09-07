@@ -1,0 +1,44 @@
+---
+import Section from '../components/Section.astro';
+import { testimonials } from '../data/site';
+---
+
+<Section
+  id="testimonials"
+  tone="warm"
+  eyebrow="In Their Words"
+  title="What members say"
+>
+  <ul class="grid gap-px border border-gold/25 bg-gold/25 md:grid-cols-3">
+    {
+      testimonials.map((item) => (
+        <li class="bg-cream-warm p-10" data-reveal>
+          <figure>
+            <svg
+              class="h-8 w-8 text-gold"
+              viewBox="0 0 32 32"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M12 8H6a6 6 0 0 0 0 12h2v4H6a10 10 0 0 1 0-20h6Zm14 0h-6a6 6 0 0 0 0 12h2v4h-2a10 10 0 0 1 0-20h6Z" />
+            </svg>
+            <blockquote class="mt-6 font-serif text-2xl italic leading-snug text-ink">
+              {item.quote}
+            </blockquote>
+            <figcaption class="mt-7 border-t border-gold/25 pt-5">
+              <span class="block text-sm font-medium text-ink">{item.attribution}</span>
+              <span class="mt-1 block text-[11px] uppercase tracking-[0.22em] text-muted">
+                {item.context}
+              </span>
+            </figcaption>
+          </figure>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="mt-10 text-sm text-muted">
+    Testimonials reflect individual experiences and are not a guarantee of any
+    particular outcome.
+  </p>
+</Section>

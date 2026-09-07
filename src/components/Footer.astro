@@ -1,0 +1,95 @@
+---
+import Logo from './Logo.astro';
+import { site, contact, nav, legal } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-ink text-cream/80">
+  <div class="mx-auto max-w-7xl px-6 py-20 lg:px-10">
+    <div class="grid gap-14 md:grid-cols-3">
+      <div>
+        <Logo tone="light" size={48} />
+        <p class="mt-6 max-w-xs font-serif text-xl italic leading-snug text-gold-light">
+          “{site.motto}”
+        </p>
+        <p class="mt-2 text-[11px] uppercase tracking-[0.22em] text-cream/50">
+          {site.mottoAttribution}
+        </p>
+      </div>
+
+      <div>
+        <h2 class="eyebrow eyebrow--light">Explore</h2>
+        <ul class="mt-6 space-y-3">
+          {
+            nav.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="text-sm text-cream/80 transition-colors hover:text-gold-light"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+          <li>
+            <a
+              href="/waitlist"
+              class="text-sm text-cream/80 transition-colors hover:text-gold-light"
+            >
+              Join the Waitlist
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="eyebrow eyebrow--light">Visit</h2>
+        <address class="mt-6 space-y-3 text-sm not-italic text-cream/80">
+          <p>
+            {contact.streetAddress}<br />
+            {contact.addressLocality}, {contact.addressRegion} {contact.postalCode}
+          </p>
+          <p>
+            <a href={contact.phoneHref} class="transition-colors hover:text-gold-light">
+              {contact.phone}
+            </a>
+          </p>
+          <p>
+            <a
+              href={`mailto:${contact.email}`}
+              class="transition-colors hover:text-gold-light"
+            >
+              {contact.email}
+            </a>
+          </p>
+        </address>
+        <ul class="mt-6 flex gap-5">
+          {
+            contact.social.map((s) => (
+              <li>
+                <a
+                  href={s.href}
+                  class="text-[11px] uppercase tracking-[0.18em] text-cream/60 transition-colors hover:text-gold-light"
+                >
+                  {s.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <hr class="rule-gold my-14" />
+
+    <div class="space-y-4 text-xs leading-relaxed text-cream/60">
+      <p>{legal.disclaimer}</p>
+      <p>{legal.supervising}</p>
+      <p class="pt-4 text-[11px] uppercase tracking-[0.22em] text-cream/40">
+        © {year} {site.legalName}. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>

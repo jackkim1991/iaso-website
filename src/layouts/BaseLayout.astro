@@ -1,0 +1,190 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site, contact, physician } from '../data/site';
+
+export interface Props {
+  title: string;
+  description?: string;
+  /** Path only, e.g. "/membership" — combined with site.url for canonical/OG. */
+  path?: string;
+  /** Absolute or root-relative image used for OG/Twitter cards. */
+  ogImage?: string;
+  /** Set on pages that should not appear in search results. */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = site.description,
+  path = Astro.url.pathname,
+  ogImage = '/og-image.png',
+  noindex = false,
+} = Astro.props;
+
+const canonical = new URL(path, site.url).href;
+const ogImageUrl = new URL(ogImage, site.url).href;
+const fullTitle = title === site.name ? title : `${title} | ${site.name}`;
+
+// LocalBusiness / MedicalClinic structured data. Every NAP value is a
+// placeholder until the real details land in src/data/site.ts.
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'MedicalClinic',
+  '@id': `${site.url}/#clinic`,
+  name: site.name,
+  legalName: site.legalName,
+  url: site.url,
+  logo: new URL('/logo.png', site.url).href,
+  image: ogImageUrl,
+  description: site.description,
+  slogan: site.tagline,
+  priceRange: '$$$',
+  telephone: contact.phone,
+  email: contact.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: contact.streetAddress,
+    addressLocality: contact.addressLocality,
+    addressRegion: contact.addressRegion,
+    postalCode: contact.postalCode,
+    addressCountry: contact.addressCountry,
+  },
+  medicalSpecialty: ['Dermatology', 'PrimaryCare'],
+  availableService: [
+    { '@type': 'MedicalTherapy', name: 'Korean dermatology treatments' },
+    { '@type': 'MedicalTherapy', name: 'Botox and neuromodulators' },
+    { '@type': 'MedicalTherapy', name: 'Laser treatments' },
+    { '@type': 'MedicalTherapy', name: 'Skin boosters' },
+    { '@type': 'MedicalTherapy', name: 'Facials and glass-skin treatments' },
+    { '@type': 'MedicalTherapy', name: 'K-beauty skincare consultation' },
+    { '@type': 'MedicalTherapy', name: 'Direct Primary Care membership' },
+  ],
+  founder: {
+    '@type': 'Physician',
+    name: physician.name,
+    medicalSpecialty: 'PrimaryCare',
+  },
+  openingHoursSpecification: contact.hours.map((h) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: h.days,
+    description: h.time,
+  })),
+  sameAs: contact.social.map((s) => s.href),
+};
+---
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Icons generated from public/logo.png (see README: "Replacing the logo"). -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#0b0b0b" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Fonts: one stylesheet request, preconnected, swap so text paints immediately. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap"
+    />
+
+    <script is:inline set:html={JSON.stringify(schema)} type="application/ld+json" />
+
+    <!-- Runs before paint so the no-JS fallback never flashes. -->
+    <script is:inline>
+      document.documentElement.classList.remove('no-js');
+    </script>
+  </head>
+
+  <body class="bg-cream text-ink antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-ink focus:px-5 focus:py-3 focus:text-cream focus:text-sm focus:tracking-widest focus:uppercase"
+    >
+      Skip to content
+    </a>
+
+    <Header />
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <!-- Scroll reveal + parallax. ~25 lines, no dependencies, and both are
+         skipped entirely when the visitor prefers reduced motion. -->
+    <script is:inline>
+      (function () {
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (reduced.matches) return;
+
+        var revealables = document.querySelectorAll('[data-reveal]');
+        if ('IntersectionObserver' in window) {
+          var io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                entry.target.setAttribute('data-revealed', '');
+                io.unobserve(entry.target);
+              });
+            },
+            { rootMargin: '0px 0px -12% 0px', threshold: 0.08 }
+          );
+          revealables.forEach(function (el) {
+            io.observe(el);
+          });
+        } else {
+          revealables.forEach(function (el) {
+            el.setAttribute('data-revealed', '');
+          });
+        }
+
+        var layers = document.querySelectorAll('.parallax-layer');
+        if (layers.length) {
+          var ticking = false;
+          var onScroll = function () {
+            if (ticking) return;
+            ticking = true;
+            window.requestAnimationFrame(function () {
+              var y = window.scrollY;
+              layers.forEach(function (layer) {
+                layer.style.setProperty('--parallax-y', (y * 0.28).toFixed(1) + 'px');
+              });
+              ticking = false;
+            });
+          };
+          window.addEventListener('scroll', onScroll, { passive: true });
+          onScroll();
+        }
+      })();
+    </script>
+  </body>
+</html>

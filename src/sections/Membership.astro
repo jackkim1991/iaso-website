@@ -1,0 +1,140 @@
+---
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import { tiers, enrollmentNotes } from '../data/site';
+---
+
+<Section
+  id="membership"
+  tone="warm"
+  eyebrow="Membership & Pricing"
+  title="One flat monthly fee. No copays, no surprises."
+  intro="Membership covers your primary care relationship in full. Aesthetic and dermatology procedures are priced separately and transparently."
+>
+  <!-- Focusable so keyboard users can scroll the table horizontally on narrow
+       screens; the caption explains what the table contains. -->
+  <div
+    class="overflow-x-auto border border-gold/30 bg-cream"
+    tabindex="0"
+    role="region"
+    aria-labelledby="pricing-caption"
+    data-reveal
+  >
+    <table class="w-full min-w-[46rem] border-collapse text-left">
+      <caption id="pricing-caption" class="sr-only">
+        Monthly Direct Primary Care membership tiers, what each includes, and how
+        to enroll.
+      </caption>
+      <thead>
+        <tr class="border-b border-gold/30">
+          <th scope="col" class="w-48 p-8 align-bottom">
+            <span class="eyebrow">Membership</span>
+          </th>
+          {
+            tiers.map((tier) => (
+              <th scope="col" class="p-8 align-bottom">
+                <span class="flex items-baseline gap-3">
+                  <span class="font-serif text-3xl font-normal text-ink">
+                    {tier.name}
+                  </span>
+                  {tier.featured && (
+                    <span class="rounded-full border border-gold px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-gold-deep">
+                      Most chosen
+                    </span>
+                  )}
+                </span>
+              </th>
+            ))
+          }
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr class="border-b border-gold/20">
+          <th scope="row" class="p-8 align-top text-[11px] font-medium uppercase tracking-[0.22em] text-muted">
+            Monthly fee
+          </th>
+          {
+            tiers.map((tier) => (
+              <td class="p-8 align-top">
+                <span class="font-serif text-4xl text-ink">{tier.price}</span>
+                <span class="ml-1 text-sm text-muted">{tier.cadence}</span>
+              </td>
+            ))
+          }
+        </tr>
+
+        <tr class="border-b border-gold/20">
+          <th scope="row" class="p-8 align-top text-[11px] font-medium uppercase tracking-[0.22em] text-muted">
+            Who it is for
+          </th>
+          {tiers.map((tier) => <td class="p-8 align-top text-muted">{tier.blurb}</td>)}
+        </tr>
+
+        <tr class="border-b border-gold/20">
+          <th scope="row" class="p-8 align-top text-[11px] font-medium uppercase tracking-[0.22em] text-muted">
+            What is included
+          </th>
+          {
+            tiers.map((tier) => (
+              <td class="p-8 align-top">
+                <ul class="space-y-2.5">
+                  {tier.includes.map((item) => (
+                    <li class="flex gap-3 text-sm text-ink">
+                      <svg
+                        class="mt-1.5 h-3 w-3 shrink-0 text-gold"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        aria-hidden="true"
+                      >
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M1 6.5 4.5 10 11 2" />
+                      </svg>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </td>
+            ))
+          }
+        </tr>
+
+        <tr>
+          <th scope="row" class="p-8 align-top text-[11px] font-medium uppercase tracking-[0.22em] text-muted">
+            Enroll
+          </th>
+          {
+            tiers.map((tier) => (
+              <td class="p-8 align-top">
+                <Button
+                  href="/waitlist"
+                  variant={tier.featured ? 'solid' : 'outline'}
+                >
+                  <span class="sr-only">Join the waitlist for the {tier.name} membership</span>
+                  <span aria-hidden="true">Join the Waitlist</span>
+                </Button>
+              </td>
+            ))
+          }
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-12 grid gap-10 md:grid-cols-2" data-reveal>
+    <ul class="space-y-3 text-sm leading-relaxed text-muted">
+      {enrollmentNotes.map((note) => <li>— {note}</li>)}
+    </ul>
+
+    <aside class="border border-gold/40 bg-cream p-8">
+      <p class="eyebrow">Important</p>
+      <p class="mt-4 leading-relaxed text-ink">
+        Direct Primary Care is <strong class="font-medium">not health insurance</strong>.
+        Membership covers the care we provide at IASO MD. We recommend keeping a
+        high-deductible or catastrophic plan for hospitalization, emergencies,
+        and specialist care outside this practice.
+      </p>
+    </aside>
+  </div>
+</Section>

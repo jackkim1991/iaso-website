@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Waitlist from '../sections/Waitlist.astro';
+import HowDpcWorks from '../sections/HowDpcWorks.astro';
+import Membership from '../sections/Membership.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title="Join the Waitlist"
+  description="IASO MD is not open yet. Join the founding waitlist to hear first about opening dates, founding-member pricing, and the first available appointments."
+  path="/waitlist"
+>
+  <PageHeader
+    eyebrow="Coming Soon"
+    title="Be among the founding members"
+    intro={site.openingStatus}
+  />
+  <Waitlist />
+  <Membership />
+  <HowDpcWorks />
+</BaseLayout>

@@ -1,0 +1,53 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import { site } from '../data/site';
+
+export interface Props {
+  /** "light" for dark backgrounds, "dark" for the off-white ground. */
+  tone?: 'light' | 'dark';
+  /** Rendered height of the mark, in px. */
+  size?: number;
+  class?: string;
+  /** Eager-load the header logo, lazy-load the footer one. */
+  eager?: boolean;
+}
+
+const { tone = 'dark', size = 44, class: className = '', eager = false } = Astro.props;
+
+// Prefer an SVG if the owner drops one in, fall back to the PNG, and fall back
+// again to a pure-type wordmark if neither file exists.
+const publicDir = path.join(process.cwd(), 'public');
+const svg = fs.existsSync(path.join(publicDir, 'logo.svg'));
+const png = fs.existsSync(path.join(publicDir, 'logo.png'));
+const src = svg ? '/logo.svg' : png ? '/logo.png' : null;
+
+const wordmarkColor = tone === 'light' ? 'text-cream' : 'text-ink';
+const accentColor = tone === 'light' ? 'text-gold-light' : 'text-gold-deep';
+---
+
+<span class={`flex items-center gap-3 ${className}`}>
+  {
+    src && (
+      <img
+        src={src}
+        alt=""
+        aria-hidden="true"
+        width={size}
+        height={size}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+        style={`height:${size}px;width:auto`}
+        class="shrink-0"
+      />
+    )
+  }
+  <span class="flex flex-col leading-none">
+    <span
+      class={`font-serif text-xl sm:text-2xl tracking-[0.2em] uppercase ${wordmarkColor}`}
+    >
+      Iaso <span class={accentColor}>MD</span>
+    </span>
+    <span class="sr-only">{site.name} — home</span>
+  </span>
+</span>

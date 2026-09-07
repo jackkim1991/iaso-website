@@ -1,0 +1,30 @@
+---
+import Section from '../components/Section.astro';
+import { dpcSteps } from '../data/site';
+---
+
+<Section
+  id="how-dpc-works"
+  tone="ink"
+  eyebrow="How DPC Works"
+  title="Four steps, and no insurance company in between"
+  intro="Direct Primary Care replaces claims, copays, and coding with a flat monthly membership paid straight to your physician. Here is the whole arrangement."
+>
+  <ol class="grid gap-px border border-gold/25 bg-gold/25 md:grid-cols-2 lg:grid-cols-4">
+    {
+      dpcSteps.map((step, index) => (
+        <li class="bg-ink p-10" data-reveal>
+          <p class="font-serif text-5xl text-gold-light" aria-hidden="true">
+            {String(index + 1).padStart(2, '0')}
+          </p>
+          <h3 class="mt-6 font-serif text-2xl text-cream">
+            <span class="sr-only">Step {index + 1}: </span>
+            {step.title}
+          </h3>
+          <hr class="rule-gold--short mt-5" />
+          <p class="mt-6 leading-relaxed text-cream/70">{step.body}</p>
+        </li>
+      ))
+    }
+  </ol>
+</Section>

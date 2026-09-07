@@ -1,0 +1,48 @@
+---
+import Section from '../components/Section.astro';
+import { gallery, legal } from '../data/site';
+---
+
+<Section
+  id="gallery"
+  eyebrow="Before & After"
+  title="Results, shown honestly"
+  intro="Every photograph published here is taken in the same lighting, at the same angle, without filters or retouching."
+>
+  <ul class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+    {
+      gallery.map((item) => (
+        <li data-reveal>
+          <figure>
+            <div class="grid grid-cols-2 gap-px border border-gold/30 bg-gold/25">
+              {['Before', 'After'].map((phase) => (
+                <div
+                  class="flex aspect-[3/4] flex-col items-center justify-center bg-cream-warm px-4 text-center"
+                  role="img"
+                  aria-label={`${phase} photograph placeholder — ${item.alt}`}
+                >
+                  <span class="eyebrow">{phase}</span>
+                  <span class="mt-3 font-serif text-lg text-ink">[IMAGE]</span>
+                </div>
+              ))}
+            </div>
+            <figcaption class="mt-4 text-sm text-muted">{item.label}</figcaption>
+          </figure>
+        </li>
+      ))
+    }
+  </ul>
+
+  <aside
+    class="mt-12 border border-gold/40 bg-cream-warm p-8"
+    aria-label="Photograph consent and results notice"
+    data-reveal
+  >
+    <p class="eyebrow">Consent &amp; Results</p>
+    <p class="mt-4 leading-relaxed text-ink">{legal.results}</p>
+    <p class="mt-3 leading-relaxed text-muted">
+      Photographs are never published without a signed, treatment-specific media
+      release, and consent can be withdrawn at any time.
+    </p>
+  </aside>
+</Section>

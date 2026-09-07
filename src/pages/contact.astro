@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Contact from '../sections/Contact.astro';
+import Waitlist from '../sections/Waitlist.astro';
+---
+
+<BaseLayout
+  title="Contact"
+  description="Location, hours, phone, and email for IASO MD, plus a general enquiry form. Please do not submit medical or health information through the form."
+  path="/contact"
+>
+  <PageHeader
+    eyebrow="Contact"
+    title="Come and see the practice"
+    intro="Ask anything about membership or treatments before you join. For a medical emergency, call 911."
+  />
+  <Contact />
+  <Waitlist />
+</BaseLayout>

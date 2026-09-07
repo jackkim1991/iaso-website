@@ -1,0 +1,98 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import { physician } from '../data/site';
+
+// Drop a headshot at public/headshot.jpg (or .png) and it replaces the frame
+// below automatically — no code change needed.
+const publicDir = path.join(process.cwd(), 'public');
+const headshot = ['headshot.jpg', 'headshot.png', 'headshot.webp'].find((f) =>
+  fs.existsSync(path.join(publicDir, f))
+);
+
+const facts = [
+  { label: 'Role', value: physician.role },
+  { label: 'Credentials', value: physician.credentials },
+  { label: 'Medical School', value: physician.medicalSchool },
+  { label: 'Undergraduate', value: physician.undergrad },
+  { label: 'Residency', value: physician.residency },
+];
+---
+
+<section id="about" class="bg-cream py-24 sm:py-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-10">
+    <div class="grid items-start gap-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-24">
+      <div data-reveal>
+        <figure class="relative">
+          {
+            headshot ? (
+              <img
+                src={`/${headshot}`}
+                alt={physician.headshotAlt}
+                width="800"
+                height="1000"
+                loading="lazy"
+                decoding="async"
+                class="aspect-[4/5] w-full border border-gold/30 object-cover"
+              />
+            ) : (
+              <div
+                class="flex aspect-[4/5] w-full flex-col items-center justify-center border border-gold/40 bg-cream-warm px-8 text-center"
+                role="img"
+                aria-label="Placeholder for the physician headshot"
+              >
+                <span class="eyebrow">Placeholder</span>
+                <p class="mt-4 font-serif text-2xl text-ink">
+                  [PROFESSIONAL HEADSHOT]
+                </p>
+                <p class="mt-3 text-sm leading-relaxed text-muted">
+                  Save the photo as <code class="font-sans">public/headshot.jpg</code> and it
+                  appears here automatically.
+                </p>
+              </div>
+            )
+          }
+          <figcaption class="mt-5 text-[11px] uppercase tracking-[0.22em] text-muted">
+            {physician.name} &middot; {physician.role}
+          </figcaption>
+        </figure>
+      </div>
+
+      <div data-reveal>
+        <p class="eyebrow">About the Physician</p>
+        <h2 class="mt-5 font-serif text-4xl text-ink sm:text-5xl">
+          {physician.name}
+        </h2>
+        <p class="mt-4 text-sm uppercase tracking-[0.18em] text-muted">
+          {physician.credentials}
+        </p>
+        <hr class="rule-gold--short mt-8" />
+
+        <div class="mt-8 space-y-6 text-lg leading-relaxed text-muted">
+          {physician.philosophy.map((p) => <p>{p}</p>)}
+        </div>
+
+        <blockquote
+          class="mt-10 border-l border-gold/50 pl-6 font-serif text-xl italic leading-relaxed text-ink"
+        >
+          {physician.whyFamilyMedicine}
+        </blockquote>
+
+        <dl class="mt-12 grid gap-x-10 gap-y-6 border-t border-gold/25 pt-10 sm:grid-cols-2">
+          {
+            facts.map((fact) => (
+              <div>
+                <dt class="text-[11px] uppercase tracking-[0.22em] text-muted">
+                  {fact.label}
+                </dt>
+                <dd class="mt-2 text-base text-ink">{fact.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+
+        <p class="mt-10 text-sm leading-relaxed text-muted">{physician.personal}</p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,70 @@
+---
+import { Image } from 'astro:assets';
+import heroImage from '../assets/hero.png';
+import Button from '../components/Button.astro';
+import Logo from '../components/Logo.astro';
+import { site } from '../data/site';
+---
+
+<section
+  class="relative flex min-h-[92svh] items-center overflow-hidden bg-ink"
+  aria-labelledby="hero-heading"
+>
+  <!-- Parallax plate. Decorative, so it carries an empty alt and is hidden
+       from assistive tech; Astro emits responsive webp/avif variants. -->
+  <div class="absolute inset-0 -z-0" aria-hidden="true">
+    <Image
+      src={heroImage}
+      alt=""
+      widths={[640, 1024, 1600, 2000]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      class="parallax-layer h-full w-full object-cover object-center opacity-45"
+    />
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-ink/85 via-ink/70 to-ink"
+    >
+    </div>
+  </div>
+
+  <div class="relative z-10 mx-auto w-full max-w-7xl px-6 py-28 lg:px-10">
+    <div class="max-w-3xl" data-reveal>
+      <Logo tone="light" size={72} class="mb-10" />
+
+      <p class="eyebrow eyebrow--light">
+        Korean Dermatology &middot; Direct Primary Care
+      </p>
+
+      <h1
+        id="hero-heading"
+        class="mt-7 font-serif text-5xl leading-[1.08] text-cream sm:text-6xl lg:text-7xl"
+      >
+        Korean skincare science,
+        <span class="block italic text-gold-light">led by your physician.</span>
+      </h1>
+
+      <p class="mt-9 max-w-xl text-lg font-light leading-relaxed text-cream/75">
+        {site.description}
+      </p>
+
+      <div class="mt-12 flex flex-col gap-4 sm:flex-row">
+        <Button href="/waitlist">Join the Waitlist</Button>
+        <Button href="/#how-dpc-works" variant="outline-light">
+          How DPC Works
+        </Button>
+      </div>
+
+      <p class="mt-10 text-[11px] uppercase tracking-[0.22em] text-cream/45">
+        {site.openingStatus}
+      </p>
+    </div>
+  </div>
+
+  <div
+    class="absolute inset-x-0 bottom-8 z-10 flex justify-center"
+    aria-hidden="true"
+  >
+    <span class="h-14 w-px bg-gradient-to-b from-transparent to-gold/70"></span>
+  </div>
+</section>

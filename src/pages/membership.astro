@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Membership from '../sections/Membership.astro';
+import HowDpcWorks from '../sections/HowDpcWorks.astro';
+import Faq from '../sections/Faq.astro';
+import Waitlist from '../sections/Waitlist.astro';
+---
+
+<BaseLayout
+  title="Membership & Pricing"
+  description="Transparent monthly Direct Primary Care membership pricing at IASO MD — individual, couple, and family tiers. DPC is not health insurance."
+  path="/membership"
+>
+  <PageHeader
+    eyebrow="Membership"
+    title="Transparent pricing, published in full"
+    intro="No copays, no coding, no surprise bills. You always know what membership costs before you join."
+  />
+  <Membership />
+  <HowDpcWorks />
+  <Faq />
+  <Waitlist />
+</BaseLayout>

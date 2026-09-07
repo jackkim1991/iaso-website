@@ -1,0 +1,25 @@
+---
+export interface Props {
+  href: string;
+  /** solid = gold ground + near-black text (8.1:1). outline = hairline border. */
+  variant?: 'solid' | 'outline' | 'outline-light';
+  class?: string;
+  type?: 'link';
+}
+
+const { href, variant = 'solid', class: className = '' } = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center rounded-full px-9 py-4 text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors duration-300';
+
+const variants = {
+  solid: 'bg-gold text-ink hover:bg-ink hover:text-cream',
+  outline: 'border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-cream',
+  'outline-light':
+    'border border-gold/50 text-gold-light hover:bg-gold hover:text-ink hover:border-gold',
+};
+---
+
+<a href={href} class={`${base} ${variants[variant]} ${className}`}>
+  <slot />
+</a>

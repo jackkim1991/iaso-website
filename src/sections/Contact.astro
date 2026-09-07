@@ -1,0 +1,186 @@
+---
+import Section from '../components/Section.astro';
+import { contact, forms, legal } from '../data/site';
+
+const action = `https://formspree.io/f/${forms.contactId}`;
+const needsSetup = forms.contactId.includes('[');
+const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.mapQuery)}`;
+
+const field =
+  'mt-2 w-full border border-gold/40 bg-cream px-4 py-3 text-ink placeholder:text-muted/60 focus:border-gold focus:outline-none';
+const label = 'block text-[11px] font-medium uppercase tracking-[0.22em] text-muted';
+---
+
+<Section
+  id="contact"
+  eyebrow="Contact"
+  title="Get in touch"
+  intro="Questions about membership, treatments, or whether IASO MD is the right fit — ask before you join."
+>
+  <div class="grid gap-16 lg:grid-cols-2 lg:gap-24">
+    <div data-reveal>
+      <div
+        class="flex aspect-[4/3] w-full flex-col items-center justify-center border border-gold/40 bg-cream-warm px-8 text-center"
+        role="img"
+        aria-label="Placeholder for the clinic location map"
+      >
+        <span class="eyebrow">Location</span>
+        <p class="mt-4 font-serif text-2xl text-ink">[MAP EMBED]</p>
+        <p class="mt-3 max-w-xs text-sm leading-relaxed text-muted">
+          Add the embed once the address is confirmed — see CONTENT-CHECKLIST.md.
+        </p>
+      </div>
+
+      <dl class="mt-10 space-y-8">
+        <div>
+          <dt class={label}>Address</dt>
+          <dd class="mt-2 text-lg text-ink">
+            <address class="not-italic">
+              {contact.streetAddress}<br />
+              {contact.addressLocality}, {contact.addressRegion} {contact.postalCode}
+            </address>
+            <a
+              href={directionsUrl}
+              class="mt-3 inline-block text-sm text-gold-deep underline underline-offset-4 hover:text-ink"
+              rel="noopener"
+            >
+              Get directions
+            </a>
+          </dd>
+        </div>
+
+        <div>
+          <dt class={label}>Hours</dt>
+          <dd class="mt-3">
+            <ul class="space-y-2">
+              {
+                contact.hours.map((h) => (
+                  <li class="flex justify-between gap-6 border-b border-gold/20 pb-2 text-ink">
+                    <span>{h.days}</span>
+                    <span class="text-muted">{h.time}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </dd>
+        </div>
+
+        <div class="grid gap-8 sm:grid-cols-2">
+          <div>
+            <dt class={label}>Phone</dt>
+            <dd class="mt-2 text-lg">
+              <a href={contact.phoneHref} class="text-ink hover:text-gold-deep">
+                {contact.phone}
+              </a>
+            </dd>
+          </div>
+          <div>
+            <dt class={label}>Email</dt>
+            <dd class="mt-2 text-lg break-words">
+              <a href={`mailto:${contact.email}`} class="text-ink hover:text-gold-deep">
+                {contact.email}
+              </a>
+            </dd>
+          </div>
+        </div>
+      </dl>
+    </div>
+
+    <div data-reveal>
+      <!-- Non-PHI notice sits above the form, before any input is reachable. -->
+      <aside
+        class="border border-gold/50 bg-cream-warm p-6"
+        aria-label="Notice about health information"
+      >
+        <p class="eyebrow">Please note</p>
+        <p class="mt-3 text-lg leading-relaxed text-ink">{legal.phi}</p>
+        <p class="mt-3 text-sm leading-relaxed text-muted">
+          This form is not secure or HIPAA-compliant and is not monitored for
+          urgent needs. For a medical emergency call 911.
+        </p>
+      </aside>
+
+      {
+        needsSetup && import.meta.env.DEV && (
+          <p class="mt-6 border border-dashed border-gold/60 p-4 text-sm text-muted">
+            Setup: replace <code>forms.contactId</code> in <code>src/data/site.ts</code>{' '}
+            with your Formspree form ID before launch — submissions go nowhere until
+            you do.
+          </p>
+        )
+      }
+
+      <form action={action} method="POST" class="mt-8 space-y-6">
+        <div>
+          <label class={label} for="contact-name">Name</label>
+          <input
+            class={field}
+            id="contact-name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            required
+          />
+        </div>
+
+        <div>
+          <label class={label} for="contact-email">Email</label>
+          <input
+            class={field}
+            id="contact-email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+          />
+        </div>
+
+        <div>
+          <label class={label} for="contact-phone">
+            Phone <span class="normal-case tracking-normal">(optional)</span>
+          </label>
+          <input
+            class={field}
+            id="contact-phone"
+            name="phone"
+            type="tel"
+            autocomplete="tel"
+          />
+        </div>
+
+        <div>
+          <label class={label} for="contact-message">Message</label>
+          <textarea
+            class={field}
+            id="contact-message"
+            name="message"
+            rows="5"
+            required
+            aria-describedby="contact-message-help"></textarea>
+          <p id="contact-message-help" class="mt-2 text-sm text-muted">
+            General questions only — no symptoms, diagnoses, medications, or other
+            health information.
+          </p>
+        </div>
+
+        <input type="hidden" name="_subject" value="IASO MD — website enquiry" />
+        <!-- Formspree honeypot: bots fill it, people never see it. -->
+        <input
+          type="text"
+          name="_gotcha"
+          tabindex="-1"
+          autocomplete="off"
+          aria-hidden="true"
+          class="hidden"
+        />
+
+        <button
+          type="submit"
+          class="inline-flex items-center justify-center rounded-full bg-gold px-9 py-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-ink transition-colors duration-300 hover:bg-ink hover:text-cream"
+        >
+          Send message
+        </button>
+      </form>
+    </div>
+  </div>
+</Section>

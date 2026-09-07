@@ -1,0 +1,54 @@
+---
+export interface Props {
+  id?: string;
+  eyebrow?: string;
+  title?: string;
+  intro?: string;
+  tone?: 'cream' | 'warm' | 'ink';
+  align?: 'center' | 'left';
+  class?: string;
+}
+
+const {
+  id,
+  eyebrow,
+  title,
+  intro,
+  tone = 'cream',
+  align = 'center',
+  class: className = '',
+} = Astro.props;
+
+const toneClass = {
+  cream: 'bg-cream text-ink',
+  warm: 'bg-cream-warm text-ink',
+  ink: 'bg-ink text-cream/80',
+}[tone];
+
+const headingClass = tone === 'ink' ? 'text-cream' : 'text-ink';
+const introClass = tone === 'ink' ? 'text-cream/70' : 'text-muted';
+const eyebrowClass = tone === 'ink' ? 'eyebrow eyebrow--light' : 'eyebrow';
+const alignClass = align === 'center' ? 'text-center mx-auto' : 'text-left';
+---
+
+<section id={id} class={`${toneClass} py-24 sm:py-32 ${className}`}>
+  <div class="mx-auto max-w-7xl px-6 lg:px-10">
+    {
+      (eyebrow || title || intro) && (
+        <div class={`max-w-2xl ${alignClass} mb-16 sm:mb-20`} data-reveal>
+          {eyebrow && <p class={eyebrowClass}>{eyebrow}</p>}
+          {title && (
+            <h2 class={`mt-5 font-serif text-4xl sm:text-5xl ${headingClass}`}>
+              {title}
+            </h2>
+          )}
+          <hr
+            class={`rule-gold--short mt-8 ${align === 'center' ? 'mx-auto' : ''}`}
+          />
+          {intro && <p class={`mt-8 text-lg leading-relaxed ${introClass}`}>{intro}</p>}
+        </div>
+      )
+    }
+    <slot />
+  </div>
+</section>

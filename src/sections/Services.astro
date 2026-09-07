@@ -1,0 +1,61 @@
+---
+import Section from '../components/Section.astro';
+import { services } from '../data/site';
+---
+
+<Section
+  id="services"
+  eyebrow="Services"
+  title="Two disciplines, one physician"
+  intro="Medical dermatology in the Korean tradition, aesthetic treatments performed conservatively, and full-scope primary care — delivered by the same physician who knows your history."
+>
+  <ul class="grid gap-px border border-gold/25 bg-gold/25 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      services.map((service) => (
+        <li class="flex flex-col bg-cream p-10" data-reveal>
+          <h3 class="font-serif text-2xl text-ink">{service.title}</h3>
+          <hr class="rule-gold--short mt-5" />
+          <p class="mt-6 flex-1 leading-relaxed text-muted">{service.summary}</p>
+
+          <ul class="mt-7 space-y-2.5">
+            {service.points.map((point) => (
+              <li class="flex gap-3 text-sm text-ink">
+                <svg
+                  class="mt-1.5 h-3 w-3 shrink-0 text-gold"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  aria-hidden="true"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M1 6.5 4.5 10 11 2" />
+                </svg>
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+
+          {service.video && (
+            <video
+              class="mt-8 aspect-video w-full border border-gold/25 object-cover"
+              src={service.video}
+              preload="none"
+              muted
+              loop
+              playsinline
+              controls
+              aria-label={`Short clip illustrating ${service.title} at IASO MD`}
+            >
+              Your browser does not support embedded video.
+            </video>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="mt-10 text-sm leading-relaxed text-muted">
+    Treatment suitability is determined at consultation. Not every treatment is
+    appropriate for every patient, and no result is guaranteed.
+  </p>
+</Section>

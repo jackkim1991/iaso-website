@@ -1,0 +1,43 @@
+---
+import Section from '../components/Section.astro';
+import { faqs } from '../data/site';
+---
+
+<Section
+  id="faq"
+  eyebrow="Questions"
+  title="Frequently asked"
+  intro="If your question is not here, ask it directly — we would rather answer before you join than after."
+>
+  <!-- Native <details>/<summary>: keyboard-operable and screen-reader friendly
+       with zero JavaScript, and it still works if scripts fail to load. -->
+  <div class="mx-auto max-w-3xl border-t border-gold/30">
+    {
+      faqs.map((faq) => (
+        <details class="group border-b border-gold/30" data-reveal>
+          <summary
+            class="flex cursor-pointer list-none items-start justify-between gap-6 py-7 text-left"
+          >
+            <h3 class="font-serif text-2xl text-ink">{faq.q}</h3>
+            <span
+              class="mt-2 flex h-6 w-6 shrink-0 items-center justify-center border border-gold/50 text-gold-deep transition-transform duration-300 group-open:rotate-45"
+              aria-hidden="true"
+            >
+              <svg viewBox="0 0 12 12" class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" d="M6 1v10M1 6h10" />
+              </svg>
+            </span>
+          </summary>
+          <p class="pb-8 pr-12 leading-relaxed text-muted">{faq.a}</p>
+        </details>
+      ))
+    }
+  </div>
+</Section>
+
+<style>
+  /* Hide the default disclosure triangle across browsers. */
+  summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

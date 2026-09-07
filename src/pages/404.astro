@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+---
+
+<BaseLayout
+  title="Page not found"
+  description="That page does not exist at IASO MD."
+  path="/404"
+  noindex
+>
+  <section class="flex min-h-[70vh] items-center bg-ink">
+    <div class="mx-auto max-w-2xl px-6 text-center">
+      <p class="eyebrow eyebrow--light">404</p>
+      <h1 class="mt-5 font-serif text-5xl text-cream sm:text-6xl">
+        This page has moved on
+      </h1>
+      <hr class="rule-gold--short mx-auto mt-8" />
+      <p class="mt-8 text-lg leading-relaxed text-cream/70">
+        The page you were looking for is not here. Everything else is a click
+        away.
+      </p>
+      <div class="mt-12 flex flex-col justify-center gap-4 sm:flex-row">
+        <Button href="/">Return home</Button>
+        <Button href="/contact" variant="outline-light">Contact us</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

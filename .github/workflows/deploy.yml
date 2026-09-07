@@ -1,0 +1,45 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Every push to main rebuilds and redeploys the live site.
+  push:
+    branches: [main]
+  # ...and you can always trigger a deploy by hand from the Actions tab.
+  workflow_dispatch:
+
+# Grant the GITHUB_TOKEN the permissions the Pages deployment needs.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a newer push cancel an in-flight deploy, but never cancel one that is
+# already mid-publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install, build, and upload the site
+        uses: withastro/action@v3
+        with:
+          node-version: 20
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   IASO MD — brand theme tokens
+   Contrast notes (measured against off-white #F7F5F0 and ink #0B0B0B):
+     ink   on cream ....... 18.1:1  AA / AAA  (body copy)
+     muted on cream .......  8.1:1  AA / AAA  (secondary copy)
+     gold-deep on cream ...  5.5:1  AA        (gold-TONED text on light)
+     gold  on cream .......  2.2:1  FAILS     -> decorative use ONLY
+                                               (rules, borders, icon fills)
+     gold  on ink .........  8.1:1  AA / AAA  (headings on dark)
+     gold-light on ink ....  12.1:1 AA / AAA  (accents on dark)
+     ink   on gold ........  8.1:1  AA / AAA  (primary buttons)
+------------------------------------------------------------------- */
+@theme {
+  --color-ink: #0b0b0b;
+  --color-ink-soft: #1a1a1a;
+  --color-muted: #4a4744;
+  --color-cream: #f7f5f0;
+  --color-cream-warm: #efece4;
+  --color-gold: #c9a227;
+  --color-gold-light: #e4c97e;
+  --color-gold-deep: #7a5f12;
+
+  --font-serif: "Cormorant Garamond", "Playfair Display", ui-serif, Georgia,
+    "Times New Roman", serif;
+  --font-sans: "Inter", "Montserrat", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --tracking-luxe: 0.28em;
+}
+
+/* ---------------------------------- base ---------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* offset anchor targets so the sticky header never covers a heading */
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.75;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+  }
+
+  /* Visible focus for every keyboard user, on light and dark grounds alike. */
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--color-gold-light);
+    color: var(--color-ink);
+  }
+}
+
+/* ------------------------------- components ------------------------------- */
+@layer components {
+  /* Small uppercase label above a heading. Uses the accessible deep gold on
+     light grounds; pair with .eyebrow--light inside dark sections. */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: var(--tracking-luxe);
+    text-transform: uppercase;
+    color: var(--color-gold-deep);
+  }
+  .eyebrow--light {
+    color: var(--color-gold-light);
+  }
+
+  /* Thin gold hairline used between and inside sections. Decorative only. */
+  .rule-gold {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-gold) 18%,
+      var(--color-gold) 82%,
+      transparent
+    );
+    border: 0;
+  }
+  .rule-gold--short {
+    width: 4.5rem;
+    height: 1px;
+    background: var(--color-gold);
+    border: 0;
+  }
+}
+
+/* --------------------------------- motion --------------------------------- */
+/* Scroll reveal: elements start shifted/faded and are unset by an
+   IntersectionObserver adding [data-revealed]. If JS never runs, the
+   .no-js fallback below keeps everything visible. */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+[data-reveal][data-revealed] {
+  opacity: 1;
+  transform: none;
+}
+html.no-js [data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero parallax layer, driven by a CSS custom property set on scroll. */
+.parallax-layer {
+  transform: translate3d(0, var(--parallax-y, 0px), 0) scale(1.12);
+  will-change: transform;
+}
+
+/* Respect the OS "reduce motion" setting: no reveals, no parallax, no smooth
+   scroll, no transitions of any kind. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .parallax-layer {
+    transform: none !important;
+    scale: 1 !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --------------------------------- print --------------------------------- */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
