@@ -18,14 +18,18 @@ if (!(await fs.stat(logoPath).catch(() => null))) {
   process.exit(1);
 }
 
-/** Square PNG of the logo on the brand off-white, at the given size. */
-const square = (size) =>
+const WHITE = { r: 0xff, g: 0xff, b: 0xff };
+const INK = { r: 0x0b, g: 0x0b, b: 0x0b };
+
+/**
+ * Square PNG of the logo at the given size, flattened onto a solid ground.
+ * Browser tabs get white; the social card gets the brand black so the logo
+ * sits invisibly on the card behind it.
+ */
+const square = (size, bg = WHITE) =>
   sharp(logoPath)
-    .resize(size, size, {
-      fit: 'contain',
-      background: { r: 0x0b, g: 0x0b, b: 0x0b, alpha: 1 },
-    })
-    .flatten({ background: { r: 0x0b, g: 0x0b, b: 0x0b } })
+    .resize(size, size, { fit: 'contain', background: { ...bg, alpha: 1 } })
+    .flatten({ background: bg })
     .png()
     .toBuffer();
 
@@ -59,7 +63,7 @@ const card = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1200" h
 </svg>`);
 
 await sharp(card)
-  .composite([{ input: await square(190), top: 130, left: 505 }])
+  .composite([{ input: await square(190, INK), top: 130, left: 505 }])
   .png()
   .toFile(path.join(publicDir, 'og-image.png'));
 
