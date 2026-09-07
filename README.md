@@ -1,6 +1,6 @@
 # IASO MD — clinic website
 
-Marketing site for **IASO MD**, a physician-led Korean dermatology and Direct
+Marketing site for **IASO MD**, a physician-led Korean aesthetics and Direct
 Primary Care clinic. Built with [Astro](https://astro.build) (static output) and
 [Tailwind CSS v4](https://tailwindcss.com), deployed to GitHub Pages by GitHub
 Actions on every push to `main`.
@@ -43,18 +43,33 @@ Then open **<http://localhost:4321>**. Saving any file reloads the browser.
 ├─ src/
 │  ├─ data/site.ts                ← ALL COPY AND PLACEHOLDERS LIVE HERE
 │  ├─ layouts/BaseLayout.astro    <head>, SEO, JSON-LD, header/footer, scripts
-│  ├─ components/                 Header, Footer, Logo, Section, Button, PageHeader
+│  ├─ components/                 Header, Footer, Logo, Section, Button
 │  ├─ sections/                   The ten page sections
-│  ├─ pages/                      index, services, membership, contact, waitlist, 404
+│  ├─ pages/                      index, 404
 │  ├─ assets/hero.png             Hero background (optimized at build time)
 │  └─ styles/global.css           Brand tokens, focus states, motion rules
 └─ CONTENT-CHECKLIST.md           Every placeholder still to be filled in
 ```
 
-The home page carries all ten sections as anchors (`#about`, `#services`,
-`#membership`, `#how-dpc-works`, `#gallery`, `#testimonials`, `#faq`, `#contact`,
-`#waitlist`). Services, Membership, Contact, and Waitlist *also* exist as their
-own routes so each has its own title, meta description, and shareable URL.
+### One page, clean URLs
+
+The site is a **single continuous page**: every nav item scrolls to a section, so
+you never land somewhere that runs out of content halfway down.
+
+Links keep real `href="/#services"` anchors — they work with JavaScript off, and
+they can be opened in a new tab — but a click is intercepted and turned into a
+scroll, so **the address bar stays `iasomd.com` with no `#fragment`**. If a URL
+does arrive carrying a hash (an old `/services` link, a shared deep link), the
+page scrolls to that section on load and then strips the hash.
+
+The trade-off: you cannot copy a link to a specific section out of the address
+bar. If you ever want that back, delete the in-page navigation script in
+`src/layouts/BaseLayout.astro` and anchors will behave normally.
+
+`/services`, `/membership`, `/contact`, and `/waitlist` existed as separate
+routes in an earlier build. They are now redirects (declared in
+`astro.config.mjs`) to the matching section, marked `noindex`, and kept out of
+the sitemap, so old links and any search-engine entries still land correctly.
 
 ## Changing text
 

@@ -15,7 +15,7 @@ export const site = {
   tagline: 'Korean skincare science, led by your physician.',
   /* One-line description reused for meta descriptions and schema.org. */
   description:
-    'IASO MD is a physician-led Direct Primary Care and Korean dermatology clinic blending K-beauty skincare science with unhurried, membership-based primary care.',
+    'IASO MD is a physician-led Direct Primary Care and Korean aesthetics clinic blending K-beauty skincare science with unhurried, membership-based primary care.',
   /* Named for Iaso, the Greek goddess of healing and recovery. */
   motto: 'Healing is a process.',
   mottoAttribution: 'Iaso — Greek goddess of recovery',
@@ -57,14 +57,19 @@ export const forms = {
   waitlistId: '[WAITLIST_FORM_ID]',
 };
 
+/**
+ * The site is a single page: every nav item scrolls to a section on "/".
+ * The old standalone routes (/services, /membership, …) still resolve — they
+ * redirect to these anchors, so existing links and bookmarks keep working.
+ */
 export const nav = [
   { label: 'About', href: '/#about' },
-  { label: 'Services', href: '/services' },
-  { label: 'Membership', href: '/membership' },
+  { label: 'Services', href: '/#services' },
+  { label: 'Membership', href: '/#membership' },
   { label: 'How DPC Works', href: '/#how-dpc-works' },
   { label: 'Results', href: '/#gallery' },
   { label: 'FAQ', href: '/#faq' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Contact', href: '/#contact' },
 ];
 
 export const physician = {
@@ -100,9 +105,9 @@ export type Service = {
 
 export const services: Service[] = [
   {
-    title: 'Korean Dermatology',
+    title: 'Korean Aesthetics',
     summary:
-      'Barrier-first medical dermatology in the Korean tradition: treat the cause, protect the skin, then refine. [DESCRIPTION — ONE OR TWO SENTENCES ABOUT YOUR APPROACH.]',
+      'Barrier-first aesthetic care in the Korean tradition: treat the cause, protect the skin, then refine. [DESCRIPTION — ONE OR TWO SENTENCES ABOUT YOUR APPROACH.]',
     points: [
       'Acne and rosacea protocols',
       'Pigmentation and melasma',

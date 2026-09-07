@@ -71,7 +71,7 @@ Keep it that way — Formspree is not a HIPAA-compliant channel.
 
 Seven cards in `services`. Each has a `[DESCRIPTION …]` prompt to replace:
 
-- Korean Dermatology — your approach, 1–2 sentences
+- Korean Aesthetics — your approach, 1–2 sentences
 - Botox & Neuromodulators — products offered and typical unit ranges
 - Laser Treatments — the devices/platforms you will offer
 - Skin Boosters — booster names and expected series length

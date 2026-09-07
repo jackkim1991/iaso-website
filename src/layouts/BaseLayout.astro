@@ -7,7 +7,7 @@ import { site, contact, physician } from '../data/site';
 export interface Props {
   title: string;
   description?: string;
-  /** Path only, e.g. "/membership" — combined with site.url for canonical/OG. */
+  /** Path only, e.g. "/404" — combined with site.url for canonical/OG. */
   path?: string;
   /** Absolute or root-relative image used for OG/Twitter cards. */
   ogImage?: string;
@@ -53,7 +53,7 @@ const schema = {
   },
   medicalSpecialty: ['Dermatology', 'PrimaryCare'],
   availableService: [
-    { '@type': 'MedicalTherapy', name: 'Korean dermatology treatments' },
+    { '@type': 'MedicalTherapy', name: 'Korean aesthetics treatments' },
     { '@type': 'MedicalTherapy', name: 'Botox and neuromodulators' },
     { '@type': 'MedicalTherapy', name: 'Laser treatments' },
     { '@type': 'MedicalTherapy', name: 'Skin boosters' },
@@ -138,6 +138,61 @@ const schema = {
     </main>
 
     <Footer />
+
+    <!-- In-page navigation. Links keep real "#section" hrefs so they work
+         without JavaScript and can be opened in a new tab, but a click scrolls
+         instead of navigating, so the address bar stays a clean iasomd.com with
+         no #fragment. A URL that does arrive with a hash (an old /services
+         link, say) still lands on the right section, then the hash is stripped. -->
+    <script is:inline>
+      (function () {
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        var goTo = function (id, behavior) {
+          var target = document.getElementById(id);
+          if (!target) return false;
+          target.scrollIntoView({ behavior: behavior, block: 'start' });
+          // Move focus so keyboard and screen-reader users follow the jump.
+          if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+          target.focus({ preventScroll: true });
+          return true;
+        };
+
+        var stripHash = function () {
+          history.replaceState(null, '', location.pathname + location.search);
+        };
+
+        document.addEventListener('click', function (event) {
+          if (event.defaultPrevented || event.button !== 0) return;
+          if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+          var link = event.target.closest && event.target.closest('a[href*="#"]');
+          if (!link) return;
+
+          var url;
+          try {
+            url = new URL(link.getAttribute('href'), location.href);
+          } catch (error) {
+            return;
+          }
+          if (url.origin !== location.origin) return;
+          if (url.pathname !== location.pathname) return;
+          if (!url.hash || url.hash === '#') return;
+
+          if (goTo(decodeURIComponent(url.hash.slice(1)), reduced.matches ? 'auto' : 'smooth')) {
+            event.preventDefault();
+          }
+        });
+
+        if (location.hash) {
+          var landing = decodeURIComponent(location.hash.slice(1));
+          requestAnimationFrame(function () {
+            goTo(landing, 'auto');
+            stripHash();
+          });
+        }
+      })();
+    </script>
 
     <!-- Scroll reveal + parallax. ~25 lines, no dependencies, and both are
          skipped entirely when the visitor prefers reduced motion. -->

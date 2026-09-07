@@ -1,12 +1,6 @@
 ---
 import Logo from './Logo.astro';
 import { nav } from '../data/site';
-
-const current = Astro.url.pathname.replace(/\/$/, '') || '/';
-const isActive = (href: string) => {
-  if (href.startsWith('/#')) return false;
-  return current === href.replace(/\/$/, '');
-};
 ---
 
 <header
@@ -26,18 +20,14 @@ const isActive = (href: string) => {
         nav.map((item) => (
           <a
             href={item.href}
-            aria-current={isActive(item.href) ? 'page' : undefined}
-            class:list={[
-              'text-[11px] font-medium uppercase tracking-[0.18em] text-muted transition-colors hover:text-ink',
-              isActive(item.href) && 'text-ink',
-            ]}
+            class="text-[11px] font-medium uppercase tracking-[0.18em] text-muted transition-colors hover:text-ink"
           >
             {item.label}
           </a>
         ))
       }
       <a
-        href="/waitlist"
+        href="/#waitlist"
         class="rounded-full bg-gold px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-ink transition-colors hover:bg-ink hover:text-cream"
       >
         Join the Waitlist
@@ -84,7 +74,7 @@ const isActive = (href: string) => {
         }
       </ul>
       <a
-        href="/waitlist"
+        href="/#waitlist"
         class="mt-6 block rounded-full bg-gold px-6 py-4 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-ink"
       >
         Join the Waitlist
