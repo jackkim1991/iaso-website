@@ -2,8 +2,8 @@
 
 Marketing site for **IASO MD**, a physician-led Korean aesthetics and Direct
 Primary Care clinic. Built with [Astro](https://astro.build) (static output) and
-[Tailwind CSS v4](https://tailwindcss.com), deployed to GitHub Pages by GitHub
-Actions on every push to `main`.
+[Tailwind CSS v4](https://tailwindcss.com), built and deployed by **Cloudflare
+Pages** on every push to `main`. Live at <https://iasomd.com>.
 
 No JavaScript frameworks, no jQuery, no GSAP. The site ships about 24 KB of
 JavaScript in total, most of it Lenis. Everything else is a few inline scripts:
@@ -53,10 +53,8 @@ Then open **<http://localhost:4321>**. Saving any file reloads the browser.
 ## Project structure
 
 ```
-├─ .github/workflows/deploy.yml   Build + deploy on push to main
+├─ (no CI config — Cloudflare Pages builds from main)
 ├─ public/                        Copied to the site root verbatim
-│  ├─ CNAME                       "iasomd.com" — the custom domain
-│  ├─ .nojekyll                   Stops GitHub Pages running Jekyll
 │  ├─ robots.txt
 │  ├─ logo.png                    Header/footer logo (logo.svg wins if present)
 │  ├─ favicon.ico / favicon-32.png / apple-touch-icon.png / og-image.png
@@ -161,82 +159,33 @@ the site and flags the ones that block launch.
 | Physician headshot | Save it as `public/headshot.jpg` (or `.png`/`.webp`). It replaces the placeholder frame with no code change. 4:5 portrait, 800×1000 or larger. |
 | Before/after photos | Edit `src/sections/Gallery.astro` and swap the placeholder boxes for real `<img>` tags. **Never publish a patient photo without a signed media release.** |
 
-## Deploy — read this first
+## How the deploy works
 
-The plan is to serve this from **Cloudflare Pages**, and `iasomd.com` already
-resolves through Cloudflare. The GitHub Actions workflow below is still in place
-deliberately: until the Cloudflare Pages project is confirmed connected to this
-repository, it is the only working deploy path, and deleting it would leave the
-site with none.
+**Cloudflare Pages serves `iasomd.com`, and it builds straight from `main`.**
+There is nothing to run and nothing to click:
 
-To finish the move: connect the repo in the Cloudflare dashboard (build command
-`npm run build`, output directory `dist`), confirm a deploy succeeds, then delete
-`.github/workflows/deploy.yml` and `public/CNAME` — the CNAME file only exists to
-tell GitHub Pages about the custom domain.
+1. Push to `main`
+2. Cloudflare Pages builds it (`npm run build` → `dist/`)
+3. `iasomd.com` updates, typically in one to two minutes
 
-## How the auto-deploy works
+Verified live: the apex domain serves this build with `/_astro/*` and
+`/logo.png` resolving correctly, so the no-base-path configuration in
+`astro.config.mjs` (`site: 'https://iasomd.com'`) is right for this setup — do
+not add a `base`.
 
-`.github/workflows/deploy.yml` runs on every push to `main` (and on demand from
-the Actions tab):
+There is deliberately **no GitHub Actions workflow and no `public/CNAME`**. Both
+existed while the site was briefly on GitHub Pages; keeping them would mean every
+push triggered two competing deploys. If you ever move back, restore both.
 
-1. **Build** — `withastro/action@v3` installs dependencies, runs `astro build`,
-   and uploads `dist/` as a Pages artifact.
-2. **Deploy** — `actions/deploy-pages@v4` publishes that artifact to GitHub Pages.
+### If a change does not appear
 
-Watch it under the repository's **Actions** tab. A typical deploy takes about a
-minute. If a build fails, the previous version stays live.
+Filenames for CSS and JS are content-hashed, so those cache-bust themselves. The
+HTML can sit in Cloudflare's edge cache for a short while.
 
-## GitHub Pages settings
-
-One-time setup, in the repository on GitHub:
-
-1. **Settings → Pages → Build and deployment → Source**: choose
-   **GitHub Actions**. (Not "Deploy from a branch" — that ignores this workflow.)
-2. **Settings → Pages → Custom domain**: enter `iasomd.com` and save.
-3. Tick **Enforce HTTPS** once the certificate has been issued (this can take up
-   to an hour after DNS resolves).
-
-`public/CNAME` keeps the custom domain set on every deploy, so a build can never
-silently reset it.
-
-## Custom domain — read this before launch
-
-**`iasomd.com` currently resolves through Cloudflare, not GitHub Pages.** As of
-the last check its nameservers are `surina.ns.cloudflare.com` /
-`brian.ns.cloudflare.com` and it serves from Cloudflare proxy IPs. Until the DNS
-below is changed, this site will deploy successfully but the custom domain will
-keep serving whatever Cloudflare points at.
-
-In the **Cloudflare dashboard → DNS** for `iasomd.com`:
-
-1. Delete the existing `A` records for the apex (`@`).
-2. Add these four `A` records for `@`, each set to **DNS only** (grey cloud, not
-   the orange proxy cloud):
-
-   ```
-   185.199.108.153
-   185.199.109.153
-   185.199.110.153
-   185.199.111.153
-   ```
-
-   Optionally add the matching `AAAA` records: `2606:50c0:8000::153`,
-   `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`.
-3. Add a `CNAME` for `www` → `jackkim1991.github.io`, also **DNS only**.
-4. If a Cloudflare Pages project or Worker route is currently bound to
-   `iasomd.com`, remove that binding — otherwise it keeps intercepting requests.
-
-The proxy must stay off: with the orange cloud enabled, GitHub cannot issue or
-renew the Let's Encrypt certificate for the domain and "Enforce HTTPS" will not
-become available.
-
-Propagation usually takes minutes, occasionally up to an hour. Verify with:
-
-```bash
-nslookup iasomd.com
-```
-
-You should see the `185.199.*` addresses.
+1. Hard refresh — <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>
+2. Check the build actually succeeded: Cloudflare dashboard → Workers & Pages →
+   your project → **Deployments**. A failed build leaves the previous version up.
+3. Still stale: Cloudflare dashboard → **Caching → Purge Everything**
 
 ## Accessibility
 
