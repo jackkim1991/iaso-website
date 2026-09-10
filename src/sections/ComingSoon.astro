@@ -1,0 +1,40 @@
+---
+import { comingSoon, contact, site } from '../data/site';
+
+/* Rendered only while comingSoon.waitlistOpen is false. Flip that flag and
+   restore a form here once a submission backend is chosen — see the README. */
+const emailReady = !contact.email.startsWith('[');
+---
+
+<section id="coming-soon" class="bg-ink py-24 text-cream sm:py-32">
+  <div class="mx-auto max-w-3xl px-6 text-center lg:px-10">
+    <p class="eyebrow eyebrow--light" data-reveal>{comingSoon.eyebrow}</p>
+
+    <h2 class="mt-6 font-serif text-4xl text-cream sm:text-5xl" data-reveal>
+      {comingSoon.title}
+    </h2>
+
+    <hr class="rule-gold mx-auto mt-10 w-40" data-draw />
+
+    <p class="mx-auto mt-10 text-lg leading-relaxed text-cream/75" data-reveal>
+      {comingSoon.body}
+    </p>
+
+    <p class="mt-12 text-[11px] uppercase tracking-[0.22em] text-cream/45" data-reveal>
+      {site.openingStatus}
+    </p>
+
+    {
+      emailReady && (
+        <p class="mt-10" data-reveal>
+          <a
+            href={`mailto:${contact.email}`}
+            class="tap lift label inline-flex items-center rounded-full bg-gold px-9 text-ink transition-colors hover:bg-cream"
+          >
+            Email us
+          </a>
+        </p>
+      )
+    }
+  </div>
+</section>

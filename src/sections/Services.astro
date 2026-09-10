@@ -12,10 +12,10 @@ import { services } from '../data/site';
   <ul class="grid gap-px border border-gold/25 bg-gold/25 sm:grid-cols-2 lg:grid-cols-3">
     {
       services.map((service) => (
-        <li class="flex flex-col bg-cream p-10" data-reveal>
+        <li class="lift flex flex-col bg-cream p-10" data-reveal>
           <h3 class="font-serif text-2xl text-ink">{service.title}</h3>
           <hr class="rule-gold--short mt-5" />
-          <p class="mt-6 flex-1 leading-relaxed text-muted">{service.summary}</p>
+          <p class="mt-6 flex-1 leading-relaxed text-neutral">{service.summary}</p>
 
           <ul class="mt-7 space-y-2.5">
             {service.points.map((point) => (
@@ -54,7 +54,7 @@ import { services } from '../data/site';
     }
   </ul>
 
-  <p class="mt-10 text-sm leading-relaxed text-muted">
+  <p class="mt-10 text-sm leading-relaxed text-neutral">
     Treatment suitability is determined at consultation. Not every treatment is
     appropriate for every patient, and no result is guaranteed.
   </p>

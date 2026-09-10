@@ -9,7 +9,7 @@ const year = new Date().getFullYear();
   <div class="mx-auto max-w-7xl px-6 py-20 lg:px-10">
     <div class="grid gap-14 md:grid-cols-3">
       <div>
-        <Logo tone="light" size={48} />
+        <Logo tone="light" variant="footer" />
         <p class="mt-6 max-w-xs font-serif text-xl italic leading-snug text-gold-light">
           “{site.motto}”
         </p>
@@ -33,14 +33,6 @@ const year = new Date().getFullYear();
               </li>
             ))
           }
-          <li>
-            <a
-              href="/#waitlist"
-              class="text-sm text-cream/80 transition-colors hover:text-gold-light"
-            >
-              Join the Waitlist
-            </a>
-          </li>
         </ul>
       </div>
 
@@ -82,11 +74,12 @@ const year = new Date().getFullYear();
       </div>
     </div>
 
-    <hr class="rule-gold my-14" />
+    <hr class="rule-gold my-14" data-draw />
 
     <div class="space-y-4 text-xs leading-relaxed text-cream/60">
       <p>{legal.disclaimer}</p>
       <p>{legal.supervising}</p>
+      <p>{legal.agreement}</p>
       <p class="pt-4 text-[11px] uppercase tracking-[0.22em] text-cream/40">
         © {year} {site.legalName}. All rights reserved.
       </p>

@@ -1,0 +1,49 @@
+---
+import Section from '../components/Section.astro';
+import { glow } from '../data/site';
+---
+
+<Section
+  id="glow"
+  tone="ink"
+  eyebrow={glow.kicker}
+  title={glow.name}
+  intro={glow.intro}
+>
+  <div class="mx-auto grid max-w-5xl gap-px border border-gold/30 bg-gold/25 lg:grid-cols-[0.85fr_1.15fr]">
+    <!-- Price -->
+    <div class="flex flex-col justify-between gap-8 bg-ink p-10" data-reveal>
+      <div>
+        <p class="eyebrow eyebrow--light">Monthly</p>
+        <p class="mt-5 flex items-baseline gap-2">
+          <span class="font-serif text-6xl font-semibold text-cream tabular-nums">
+            {glow.price}
+          </span>
+          <span class="text-sm text-cream/60">{glow.cadence}</span>
+        </p>
+        <hr class="rule-gold mt-8" data-draw />
+        <p class="mt-8 leading-relaxed text-cream/70">{glow.priceNote}</p>
+      </div>
+      <p class="border-l-2 border-gold pl-4 text-sm font-medium text-cream">
+        {glow.legal}
+      </p>
+    </div>
+
+    <!-- What it carries -->
+    <div class="bg-ink p-10" data-reveal>
+      <h3 class="sr-only">What IASO Glow includes</h3>
+      <dl class="divide-y divide-gold/15">
+        {
+          glow.includes.map((item) => (
+            <div class="grid gap-1 py-5 first:pt-0 last:pb-0 sm:grid-cols-[10rem_1fr] sm:gap-6">
+              <dt class="text-[11px] font-medium uppercase tracking-[0.22em] text-gold-light">
+                {item.label}
+              </dt>
+              <dd class="leading-relaxed text-cream/85">{item.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</Section>

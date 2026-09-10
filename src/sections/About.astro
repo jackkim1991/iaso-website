@@ -45,14 +45,14 @@ const facts = [
                 <p class="mt-4 font-serif text-2xl text-ink">
                   [PROFESSIONAL HEADSHOT]
                 </p>
-                <p class="mt-3 text-sm leading-relaxed text-muted">
+                <p class="mt-3 text-sm leading-relaxed text-neutral">
                   Save the photo as <code class="font-sans">public/headshot.jpg</code> and it
                   appears here automatically.
                 </p>
               </div>
             )
           }
-          <figcaption class="mt-5 text-[11px] uppercase tracking-[0.22em] text-muted">
+          <figcaption class="mt-5 text-[11px] uppercase tracking-[0.22em] text-neutral">
             {physician.name} &middot; {physician.role}
           </figcaption>
         </figure>
@@ -63,12 +63,12 @@ const facts = [
         <h2 class="mt-5 font-serif text-4xl text-ink sm:text-5xl">
           {physician.name}
         </h2>
-        <p class="mt-4 text-sm uppercase tracking-[0.18em] text-muted">
+        <p class="mt-4 text-sm uppercase tracking-[0.18em] text-neutral">
           {physician.credentials}
         </p>
         <hr class="rule-gold--short mt-8" />
 
-        <div class="mt-8 space-y-6 text-lg leading-relaxed text-muted">
+        <div class="mt-8 space-y-6 text-lg leading-relaxed text-neutral">
           {physician.philosophy.map((p) => <p>{p}</p>)}
         </div>
 
@@ -82,7 +82,7 @@ const facts = [
           {
             facts.map((fact) => (
               <div>
-                <dt class="text-[11px] uppercase tracking-[0.22em] text-muted">
+                <dt class="text-[11px] uppercase tracking-[0.22em] text-neutral">
                   {fact.label}
                 </dt>
                 <dd class="mt-2 text-base text-ink">{fact.value}</dd>
@@ -91,7 +91,7 @@ const facts = [
           }
         </dl>
 
-        <p class="mt-10 text-sm leading-relaxed text-muted">{physician.personal}</p>
+        <p class="mt-10 text-sm leading-relaxed text-neutral">{physician.personal}</p>
       </div>
     </div>
   </div>

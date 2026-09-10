@@ -2,39 +2,44 @@
 
 /* ------------------------------------------------------------------
    IASO MD — brand theme tokens
-   Contrast notes (measured against off-white #F7F5F0 and ink #0B0B0B):
-     ink   on cream ....... 18.1:1  AA / AAA  (body copy)
-     muted on cream .......  8.1:1  AA / AAA  (secondary copy)
-     gold-deep on cream ...  5.5:1  AA        (gold-TONED text on light)
-     gold  on cream .......  2.2:1  FAILS     -> decorative use ONLY
-                                               (rules, borders, icon fills)
-     gold  on ink .........  8.1:1  AA / AAA  (headings on dark)
-     gold-light on ink ....  12.1:1 AA / AAA  (accents on dark)
-     ink   on gold ........  8.1:1  AA / AAA  (primary buttons)
+
+   Measured contrast (against cream #F7F5F0 and ink #0B0B0B):
+     ink        on cream ...... 18.1:1  AA / AAA  body copy, headings
+     neutral    on cream ......  7.3:1  AA / AAA  secondary copy
+     gold-text  on cream ......  5.5:1  AA        gold-TONED text on light
+     gold       on cream ......  2.2:1  FAILS     decorative ONLY —
+                                                  rules, borders, icon strokes
+     gold       on ink ........  8.1:1  AA / AAA  text on dark grounds
+     gold-light on ink ........ 12.1:1  AA / AAA  accents on dark
+     ink        on gold .......  8.1:1  AA / AAA  primary buttons
+
+   Never emit --color-gold as a text color on a light ground.
 ------------------------------------------------------------------- */
 @theme {
   --color-ink: #0b0b0b;
   --color-ink-soft: #1a1a1a;
-  --color-muted: #4a4744;
+  --color-neutral: #55504a;
   --color-cream: #f7f5f0;
   --color-cream-warm: #efece4;
   --color-gold: #c9a227;
   --color-gold-light: #e4c97e;
-  --color-gold-deep: #7a5f12;
+  --color-gold-text: #7a5f12;
 
   --font-serif: "Cormorant Garamond", "Playfair Display", ui-serif, Georgia,
     "Times New Roman", serif;
   --font-sans: "Inter", "Montserrat", ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
-  --tracking-luxe: 0.28em;
+  --tracking-luxe: 0.22em;
+  --tracking-label: 0.06em;
+  --tracking-wordmark: 0.18em;
 }
 
 /* ---------------------------------- base ---------------------------------- */
 @layer base {
   html {
     scroll-behavior: smooth;
-    /* offset anchor targets so the sticky header never covers a heading */
+    /* Keeps the sticky header from covering a section heading. */
     scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
   }
@@ -43,20 +48,41 @@
     background-color: var(--color-cream);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-weight: 300;
-    line-height: 1.75;
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.6;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }
 
+  /* Cormorant has extreme stroke contrast — below ~1.25rem its hairlines
+     disappear on low-DPI screens. Display sizes only, weight 600 and up. */
   h1, h2, h3, h4 {
     font-family: var(--font-serif);
-    font-weight: 300;
-    line-height: 1.12;
-    letter-spacing: -0.01em;
+    font-weight: 600;
+    text-wrap: balance;
   }
 
-  /* Visible focus for every keyboard user, on light and dark grounds alike. */
+  h1 {
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -0.5px;
+  }
+
+  h2 {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    line-height: 1.12;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+
+  p {
+    max-width: 68ch;
+  }
+
   :focus-visible {
     outline: 2px solid var(--color-gold);
     outline-offset: 3px;
@@ -71,21 +97,38 @@
 
 /* ------------------------------- components ------------------------------- */
 @layer components {
-  /* Small uppercase label above a heading. Uses the accessible deep gold on
-     light grounds; pair with .eyebrow--light inside dark sections. */
+  /* Small uppercase label above a heading. Deep gold on light grounds; pair
+     with .eyebrow--light inside dark sections. */
   .eyebrow {
     font-family: var(--font-sans);
     font-size: 0.6875rem;
     font-weight: 600;
     letter-spacing: var(--tracking-luxe);
     text-transform: uppercase;
-    color: var(--color-gold-deep);
+    color: var(--color-gold-text);
   }
   .eyebrow--light {
     color: var(--color-gold-light);
   }
 
-  /* Thin gold hairline used between and inside sections. Decorative only. */
+  /* Nav items, buttons, table labels. */
+  .label {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .wordmark {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wordmark);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  /* Thin gold hairlines. Decorative — never the sole carrier of meaning. */
   .rule-gold {
     height: 1px;
     background: linear-gradient(
@@ -103,49 +146,144 @@
     background: var(--color-gold);
     border: 0;
   }
+
+  /* Tap targets: 44px minimum on every interactive element. */
+  .tap {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }
 
-/* --------------------------------- motion --------------------------------- */
-/* Scroll reveal: elements start shifted/faded and are unset by an
-   IntersectionObserver adding [data-revealed]. If JS never runs, the
-   .no-js fallback below keeps everything visible. */
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
-}
-[data-reveal][data-revealed] {
-  opacity: 1;
-  transform: none;
-}
-html.no-js [data-reveal] {
-  opacity: 1;
-  transform: none;
+/* ==========================================================================
+   MOTION — four moments, transform and opacity only.
+
+   1. Hero settle      fade up 12px over 600ms on load
+   2. Section reveal   fade up 16px on entry, staggered
+   3. Hairline draw    dividers scale-x 0 -> 1 over 800ms on entry
+   4. Hover lift       cards and buttons rise 2px, 140ms, pointer devices
+
+   Everything is visible at rest. Elements are only hidden once a script has
+   confirmed it can reveal them again (html.js) or the browser has confirmed
+   it supports scroll-driven animation (html.css-scroll).
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* ---- 1. hero settle ----
+     The hidden state lives in the keyframe, not in the base rule, so an
+     element whose animation never runs stays visible rather than invisible. */
+  html.js [data-settle] {
+    animation: settle-up 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--settle-order, 0) * 90ms);
+  }
+
+  @keyframes settle-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ---- 2. section reveal — JS fallback path ---- */
+  html.js:not(.css-scroll) [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  html.js:not(.css-scroll) [data-reveal][data-revealed] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ---- 2. section reveal — native scroll-driven path ----
+     Runs on the compositor, off the main thread, no JavaScript involved. */
+  @supports (animation-timeline: view()) {
+    html.css-scroll [data-reveal] {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 45%;
+    }
+
+    html.css-scroll [data-draw] {
+      animation: draw-line linear both;
+      animation-timeline: view();
+      animation-range: entry 10% entry 60%;
+    }
+  }
+
+  @keyframes reveal-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ---- 3. gold hairline draw ---- */
+  @keyframes draw-line {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  [data-draw] {
+    transform-origin: left center;
+  }
+
+  html.js:not(.css-scroll) [data-draw] {
+    transform: scaleX(0);
+    transition: transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  html.js:not(.css-scroll) [data-draw][data-revealed] {
+    transform: scaleX(1);
+  }
+
+  /* ---- 4. hover lift, pointer devices only ---- */
+  @media (hover: hover) and (pointer: fine) {
+    .lift {
+      transition:
+        transform 140ms ease,
+        box-shadow 140ms ease;
+    }
+    .lift:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px -12px rgb(11 11 11 / 0.28);
+    }
+  }
 }
 
-/* Hero parallax layer, driven by a CSS custom property set on scroll. */
+/* Hero parallax layer, driven by a custom property set on scroll. */
 .parallax-layer {
   transform: translate3d(0, var(--parallax-y, 0px), 0) scale(1.12);
   will-change: transform;
 }
 
-/* Respect the OS "reduce motion" setting: no reveals, no parallax, no smooth
-   scroll, no transitions of any kind. */
+/* Reduced motion: nothing moves, everything is visible. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  [data-reveal] {
+  [data-reveal],
+  [data-settle],
+  [data-draw] {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+    animation: none !important;
   }
   .parallax-layer {
     transform: none !important;
-    scale: 1 !important;
   }
   *,
   *::before,

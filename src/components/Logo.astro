@@ -1,53 +1,55 @@
 ---
 import fs from 'node:fs';
 import path from 'node:path';
-import { site } from '../data/site';
 
 export interface Props {
-  /** "light" for dark backgrounds, "dark" for the off-white ground. */
+  /** "light" for dark grounds, "dark" for the off-white ground. */
   tone?: 'light' | 'dark';
-  /** Rendered height of the mark, in px. */
-  size?: number;
+  /** header = 40px desktop / 28px mobile. footer = 32px. */
+  variant?: 'header' | 'footer';
   class?: string;
-  /** Eager-load the header logo, lazy-load the footer one. */
   eager?: boolean;
 }
 
-const { tone = 'dark', size = 44, class: className = '', eager = false } = Astro.props;
+const { tone = 'dark', variant = 'header', class: className = '', eager = false } =
+  Astro.props;
 
-// Prefer an SVG if the owner drops one in, fall back to the PNG, and fall back
-// again to a pure-type wordmark if neither file exists.
+/**
+ * Prefer an SVG once the corrected wordmark is commissioned; fall back to the
+ * current PNG; fall back again to a pure-type wordmark if neither exists.
+ *
+ * Only the ICON is used here — the name is set in type beside it. The supplied
+ * logo.png bakes in the words "IASO medical", which renders about 8px tall at
+ * header size and contradicts the IASO MD wordmark next to it. Once the new
+ * mark.svg (icon only) lands in /public, it is picked up automatically.
+ */
 const publicDir = path.join(process.cwd(), 'public');
-const svg = fs.existsSync(path.join(publicDir, 'logo.svg'));
-const png = fs.existsSync(path.join(publicDir, 'logo.png'));
-const src = svg ? '/logo.svg' : png ? '/logo.png' : null;
+const candidates = ['mark.svg', 'logo.svg', 'logo.png'];
+const found = candidates.find((file) => fs.existsSync(path.join(publicDir, file)));
+const src = found ? `/${found}` : null;
 
-const wordmarkColor = tone === 'light' ? 'text-cream' : 'text-ink';
-const accentColor = tone === 'light' ? 'text-gold-light' : 'text-gold-deep';
+const markSize = variant === 'footer' ? 'h-8' : 'h-7 sm:h-10';
+const wordSize = variant === 'footer' ? 'text-lg' : 'text-lg sm:text-xl';
+const wordColor = tone === 'light' ? 'text-cream' : 'text-ink';
+const accentColor = tone === 'light' ? 'text-gold-light' : 'text-gold-text';
+/* Clear space = half the mark height: 20px around a 40px mark. */
+const clearSpace = variant === 'footer' ? 'gap-3' : 'gap-3 sm:gap-4';
 ---
 
-<span class={`flex items-center gap-3 ${className}`}>
+<span class={`flex items-center ${clearSpace} ${className}`}>
   {
     src && (
       <img
         src={src}
         alt=""
         aria-hidden="true"
-        width={size}
-        height={size}
         loading={eager ? 'eager' : 'lazy'}
         decoding="async"
-        style={`height:${size}px;width:auto`}
-        class="shrink-0"
+        class={`${markSize} w-auto shrink-0`}
       />
     )
   }
-  <span class="flex flex-col leading-none">
-    <span
-      class={`font-serif text-xl sm:text-2xl tracking-[0.2em] uppercase ${wordmarkColor}`}
-    >
-      Iaso <span class={accentColor}>MD</span>
-    </span>
-    <span class="sr-only">{site.name} — home</span>
+  <span class={`wordmark ${wordSize} ${wordColor}`}>
+    Iaso <span class={accentColor}>MD</span>
   </span>
 </span>

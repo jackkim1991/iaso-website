@@ -6,13 +6,9 @@ import { nav } from '../data/site';
 <header
   class="sticky top-0 z-50 border-b border-gold/25 bg-cream/90 backdrop-blur-md no-print"
 >
-  <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-10">
-    <a
-      href="/"
-      class="group -m-2 p-2"
-      aria-label="IASO MD — home"
-    >
-      <Logo tone="dark" size={44} eager />
+  <div class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-6 lg:px-10">
+    <a href="/" class="group -m-2 p-2" aria-label="IASO MD — home">
+      <Logo tone="dark" variant="header" eager />
     </a>
 
     <nav aria-label="Primary" class="hidden items-center gap-8 lg:flex">
@@ -20,52 +16,55 @@ import { nav } from '../data/site';
         nav.map((item) => (
           <a
             href={item.href}
-            class="text-[11px] font-medium uppercase tracking-[0.18em] text-muted transition-colors hover:text-ink"
+            class="label flex items-center text-neutral transition-colors hover:text-ink"
           >
             {item.label}
           </a>
         ))
       }
-      <a
-        href="/#waitlist"
-        class="rounded-full bg-gold px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-ink transition-colors hover:bg-ink hover:text-cream"
-      >
-        Join the Waitlist
-      </a>
     </nav>
 
-    <button
-      type="button"
-      id="nav-toggle"
-      class="-mr-2 flex items-center gap-2 p-2 lg:hidden"
-      aria-expanded="false"
-      aria-controls="mobile-nav"
-    >
-      <span class="text-[11px] font-medium uppercase tracking-[0.18em] text-muted">
-        Menu
-      </span>
-      <svg
-        class="h-5 w-5 text-ink"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-        aria-hidden="true"
+    <div class="flex items-center gap-2">
+      <!-- The single high-contrast CTA. Visible at every breakpoint, never
+           folded into the hamburger. -->
+      <a
+        href="/#contact"
+        class="tap lift label flex items-center rounded-full bg-gold px-5 text-ink transition-colors hover:bg-ink hover:text-cream sm:px-6"
       >
-        <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"></path>
-      </svg>
-    </button>
+        Contact
+      </a>
+
+      <button
+        type="button"
+        id="nav-toggle"
+        class="tap -mr-2 flex items-center justify-center gap-2 p-2 lg:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+      >
+        <span class="sr-only">Menu</span>
+        <svg
+          class="h-6 w-6 text-ink"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"></path>
+        </svg>
+      </button>
+    </div>
   </div>
 
   <div id="mobile-nav" hidden class="border-t border-gold/25 bg-cream lg:hidden">
-    <nav aria-label="Primary (mobile)" class="mx-auto max-w-7xl px-6 py-6">
+    <nav aria-label="Primary (mobile)" class="mx-auto max-w-7xl px-6 py-4">
       <ul class="flex flex-col divide-y divide-gold/15">
         {
           nav.map((item) => (
             <li>
               <a
                 href={item.href}
-                class="block py-4 font-serif text-2xl text-ink transition-colors hover:text-gold-deep"
+                class="tap flex items-center py-4 font-serif text-2xl text-ink transition-colors hover:text-gold-text"
               >
                 {item.label}
               </a>
@@ -73,12 +72,6 @@ import { nav } from '../data/site';
           ))
         }
       </ul>
-      <a
-        href="/#waitlist"
-        class="mt-6 block rounded-full bg-gold px-6 py-4 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-ink"
-      >
-        Join the Waitlist
-      </a>
     </nav>
   </div>
 </header>

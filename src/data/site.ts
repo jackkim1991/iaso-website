@@ -1,30 +1,27 @@
 /**
  * Single source of truth for every piece of copy on the site.
  *
- * Anything wrapped in [SQUARE BRACKETS] is a placeholder that still needs real
- * information — see CONTENT-CHECKLIST.md for the full list. Edit this file and
- * the whole site updates; you should rarely need to touch a .astro file to
- * change words, prices, or contact details.
+ * Anything in [SQUARE BRACKETS] still needs a real value — CONTENT-CHECKLIST.md
+ * lists them all. Edit this file and the whole site updates; you should rarely
+ * need to open a .astro file to change words, prices, or contact details.
  */
 
 export const site = {
   name: 'IASO MD',
   legalName: 'IASO MD',
   url: 'https://iasomd.com',
-  /* Shown under the logo in the hero. */
   tagline: 'Korean skincare science, led by your physician.',
-  /* One-line description reused for meta descriptions and schema.org. */
   description:
     'IASO MD is a physician-led Direct Primary Care and Korean aesthetics clinic blending K-beauty skincare science with unhurried, membership-based primary care.',
   /* Named for Iaso, the Greek goddess of healing and recovery. */
   motto: 'Healing is a process.',
   mottoAttribution: 'Iaso — Greek goddess of recovery',
-  openingStatus: 'Now forming our founding membership. Opening [MONTH YEAR].',
+  openingStatus: 'Opening [MONTH YEAR] in [CITY], Washington.',
 };
 
 export const contact = {
   phone: '[PHONE]',
-  /* href-safe version of the phone number, e.g. tel:+12065550100 */
+  /* Digits only, e.g. tel:+12065550100 — leave bracketed until real. */
   phoneHref: 'tel:[PHONE-DIGITS]',
   email: '[EMAIL]',
   streetAddress: '[STREET ADDRESS, SUITE]',
@@ -32,7 +29,6 @@ export const contact = {
   addressRegion: 'WA',
   postalCode: '[ZIP]',
   addressCountry: 'US',
-  /* Used for the map embed / directions link once the address is real. */
   mapQuery: '[STREET ADDRESS, CITY, WA ZIP]',
   hours: [
     { days: 'Monday – Thursday', time: '[9:00 AM – 5:00 PM]' },
@@ -48,25 +44,14 @@ export const contact = {
 };
 
 /**
- * Formspree endpoints. Create two forms at https://formspree.io, then paste the
- * form IDs here. Until then the forms are visibly disabled rather than silently
- * posting into a void.
- */
-export const forms = {
-  contactId: '[FORM_ID]',
-  waitlistId: '[WAITLIST_FORM_ID]',
-};
-
-/**
- * The site is a single page: every nav item scrolls to a section on "/".
- * The old standalone routes (/services, /membership, …) still resolve — they
- * redirect to these anchors, so existing links and bookmarks keep working.
+ * Every nav item scrolls to a section on "/". A click handler in BaseLayout
+ * turns these into a scroll without writing a #fragment into the address bar.
  */
 export const nav = [
   { label: 'About', href: '/#about' },
   { label: 'Services', href: '/#services' },
   { label: 'Membership', href: '/#membership' },
-  { label: 'How DPC Works', href: '/#how-dpc-works' },
+  { label: 'How it works', href: '/#how-it-works' },
   { label: 'Results', href: '/#gallery' },
   { label: 'FAQ', href: '/#faq' },
   { label: 'Contact', href: '/#contact' },
@@ -78,7 +63,7 @@ export const physician = {
   knownName: 'Jin Bum (Jack) Kim, MD',
   credentials: '[BOARD CERTIFICATION, e.g. Board-Certified in Family Medicine]',
   role: 'Founding Physician',
-  license: '[STATE MEDICAL LICENSE #]',
+  license: '[WA MEDICAL LICENSE #]',
   hometown: 'Burnaby, British Columbia, Canada',
   undergrad: 'University of British Columbia',
   medicalSchool: 'University College Dublin',
@@ -95,11 +80,42 @@ export const physician = {
     'Outside the clinic: the gym, photography, music, baking, travel, and camping.',
 };
 
+/* -------------------------------------------------------------------------- */
+/*  Trust                                                                      */
+/* -------------------------------------------------------------------------- */
+
+export const trust = {
+  credentials: [
+    { label: 'Physician', value: '[PHYSICIAN NAME], MD' },
+    { label: 'Board certification', value: '[BOARD CERTIFICATION]' },
+    { label: 'Medical school', value: 'University College Dublin' },
+    { label: 'Residency', value: '[RESIDENCY PROGRAM]' },
+  ],
+  /**
+   * Washington requires direct practices to register with the Office of the
+   * Insurance Commissioner under RCW 48.150. Leave this null until the
+   * registration is actually granted — the line is hidden while it is null.
+   */
+  waRegistration: null as string | null,
+  waRegistrationTemplate:
+    'Registered Washington Direct Practice (RCW 48.150) — [REGISTRATION DATE]',
+  injectables:
+    'We use only FDA-approved injectables, including Skinvive and Botox.',
+  reviews: [
+    { quote: '[REVIEW — ONE OR TWO SENTENCES IN THE PATIENT’S OWN WORDS.]', attribution: '[FIRST NAME, LAST INITIAL]' },
+    { quote: '[REVIEW — ONE OR TWO SENTENCES IN THE PATIENT’S OWN WORDS.]', attribution: '[FIRST NAME, LAST INITIAL]' },
+    { quote: '[REVIEW — ONE OR TWO SENTENCES IN THE PATIENT’S OWN WORDS.]', attribution: '[FIRST NAME, LAST INITIAL]' },
+  ],
+};
+
+/* -------------------------------------------------------------------------- */
+/*  Services                                                                   */
+/* -------------------------------------------------------------------------- */
+
 export type Service = {
   title: string;
   summary: string;
   points: string[];
-  /* Optional short clip already sitting in /public/videos */
   video?: string;
 };
 
@@ -108,62 +124,38 @@ export const services: Service[] = [
     title: 'Korean Aesthetics',
     summary:
       'Barrier-first aesthetic care in the Korean tradition: treat the cause, protect the skin, then refine. [DESCRIPTION — ONE OR TWO SENTENCES ABOUT YOUR APPROACH.]',
-    points: [
-      'Acne and rosacea protocols',
-      'Pigmentation and melasma',
-      'Eczema and barrier repair',
-    ],
+    points: ['Acne and rosacea protocols', 'Pigmentation and melasma', 'Eczema and barrier repair'],
     video: '/videos/skin.mp4',
   },
   {
     title: 'Botox & Neuromodulators',
     summary:
       'Conservative, anatomy-led dosing for expression lines — the goal is a rested face, not a still one. [DESCRIPTION — INCLUDE PRODUCTS OFFERED AND TYPICAL UNIT RANGES.]',
-    points: [
-      'Glabella, forehead, and crow’s feet',
-      'Masseter and jawline slimming',
-      'Hyperhidrosis',
-    ],
+    points: ['Glabella, forehead, and crow’s feet', 'Masseter and jawline slimming', 'Hyperhidrosis'],
   },
   {
     title: 'Laser Treatments',
     summary:
       'Device-based resurfacing and vascular work, selected for the skin type in front of us. [DESCRIPTION — LIST THE DEVICES AND PLATFORMS YOU WILL OFFER.]',
-    points: [
-      'Pigment and vascular lasers',
-      'Resurfacing and texture',
-      'Structured post-treatment care',
-    ],
+    points: ['Pigment and vascular lasers', 'Resurfacing and texture', 'Structured post-treatment care'],
   },
   {
     title: 'Skin Boosters',
     summary:
       'Injectable hydration and biostimulation aimed at skin quality rather than volume. [DESCRIPTION — NAME THE BOOSTERS AND THE EXPECTED SERIES LENGTH.]',
-    points: [
-      'Polynucleotide and PDRN',
-      'Hyaluronic skin boosters',
-      'Microneedling with actives',
-    ],
+    points: ['Polynucleotide and PDRN', 'Hyaluronic skin boosters', 'Microneedling with actives'],
   },
   {
     title: 'Facials & Glass Skin',
     summary:
       'The signature multi-step ritual: deep cleanse, gentle exfoliation, extraction, infusion, and a finish that reads as lit from within. [DESCRIPTION — TREATMENT LENGTH AND WHAT IS INCLUDED.]',
-    points: [
-      'Glass-skin signature facial',
-      'Hydrating and calming protocols',
-      'Event-ready preparation',
-    ],
+    points: ['Glass-skin signature facial', 'Hydrating and calming protocols', 'Event-ready preparation'],
   },
   {
     title: 'K-Beauty Skincare Consultation',
     summary:
       'A physician-built routine using products you can actually sustain, with the reasoning behind every step. [DESCRIPTION — CONSULT LENGTH AND FOLLOW-UP CADENCE.]',
-    points: [
-      'Full routine build',
-      'Ingredient and layering guidance',
-      'Seasonal adjustments',
-    ],
+    points: ['Full routine build', 'Ingredient and layering guidance', 'Seasonal adjustments'],
   },
   {
     title: 'Primary Care & DPC Membership',
@@ -178,68 +170,113 @@ export const services: Service[] = [
   },
 ];
 
-export type Tier = {
+/* -------------------------------------------------------------------------- */
+/*  Track one — IASO Care (Direct Primary Care, HSA-eligible)                  */
+/* -------------------------------------------------------------------------- */
+
+export type CareTier = {
   name: string;
   price: string;
   cadence: string;
-  blurb: string;
+  covers: string;
   featured?: boolean;
-  includes: string[];
+  /** Founding-member rate, held for life. */
+  founding: string;
 };
 
-export const tiers: Tier[] = [
+export const careTiers: CareTier[] = [
   {
     name: 'Individual',
-    /* Carried over from the previous site — confirm before launch. */
-    price: '$99',
+    price: '$129',
     cadence: '/ month',
-    blurb: 'One member, one physician, unlimited access.',
+    covers: 'One adult, 18–64',
     featured: true,
-    includes: [
-      'Unlimited office and video visits',
-      'Direct text and email to your physician',
-      'Same-day or next-day appointments',
-      'Annual comprehensive physical',
-      'Wholesale labs, imaging, and medications',
-      '[MEMBER PRICING ON AESTHETIC SERVICES — %]',
-    ],
+    founding: '$99',
   },
   {
     name: 'Couple',
-    price: '[$X]',
+    price: '$239',
     cadence: '/ month',
-    blurb: 'Two adults in the same household.',
-    includes: [
-      'Everything in Individual, for two members',
-      'Shared household scheduling',
-      'Coordinated preventive planning',
-      '[ADDITIONAL COUPLE BENEFIT]',
-    ],
+    covers: 'Two adults',
+    founding: '[FOUNDING COUPLE PRICE]',
   },
   {
     name: 'Family',
-    price: '[$X]',
+    price: '$299',
     cadence: '/ month',
-    blurb: 'Two adults plus dependents [UP TO N CHILDREN].',
-    includes: [
-      'Everything in Couple, plus dependents',
-      'Pediatric well-child visits [AGES COVERED]',
-      'School and sports physicals',
-      '[ADDITIONAL FAMILY BENEFIT]',
-    ],
+    covers: 'Two adults + up to 3 children',
+    founding: '[FOUNDING FAMILY PRICE]',
   },
 ];
 
-export const enrollmentNotes = [
-  'A one-time enrollment fee of [$X] applies per member.',
-  'Month to month. Cancel any time with [N] days’ notice.',
-  'Aesthetic and dermatology procedures are billed separately from membership.',
-];
+export const care = {
+  name: 'IASO Care',
+  kicker: 'Direct Primary Care',
+  intro:
+    'Your medical home. One flat monthly fee covers the primary care relationship in full — no copays, no per-visit charge, no surprise billing.',
+  /* Single exception line beneath the table — deliberately not a second grid. */
+  seniorNote: 'Members 65 and over: $149 / month.',
+  enrollment: 'One-time enrollment fee of [ENROLLMENT_FEE] per member.',
+  hsaBadge:
+    'HSA-eligible — under the $150/mo individual cap (IRS Notice 2026-05).',
+  hsaDetail:
+    'Because IASO Care covers primary care only, it qualifies as a direct primary care service arrangement, and you can pay for it with pre-tax HSA dollars.',
+  founding: {
+    label: 'Founding 100',
+    body:
+      'The first 100 members hold their founding rate for life, and the enrollment fee is waived. Available on every tier — Individual, Couple, and Family.',
+  },
+  includes: [
+    'Unlimited office and video visits',
+    'Direct text and email access to your physician',
+    'Same-day or next-day appointments',
+    'Annual comprehensive physical',
+    'Wholesale labs, imaging, and medications',
+    'Medical dermatology — acne, rosacea, eczema, skin checks, lesion evaluation and removal',
+    'Annual skin-health consultation',
+    'Member rates on all IASO Glow services',
+    'Priority IASO Glow booking',
+  ],
+  legal: 'Direct Primary Care is not health insurance.',
+};
 
-export const dpcSteps = [
+/* -------------------------------------------------------------------------- */
+/*  Track two — IASO Glow (aesthetics, billed separately)                      */
+/* -------------------------------------------------------------------------- */
+
+export const glow = {
+  name: 'IASO Glow',
+  kicker: 'Aesthetics Program',
+  intro:
+    'Everything cosmetic, on its own membership. Your monthly fee banks as credit you spend on whatever your skin needs that season.',
+  price: '$199',
+  cadence: '/ month',
+  priceNote: 'Banked as credit toward any IASO Glow service or retail product.',
+  includes: [
+    { label: 'Monthly credit', value: '$199, yours to spend on any Glow service' },
+    { label: 'Rollover', value: 'Unused credit rolls over up to [12] months' },
+    { label: 'Member neurotoxin', value: '$[13–14] per unit — non-members $[16–18]' },
+    { label: 'Packages', value: '15% off laser and skin-booster series' },
+    { label: 'Booking', value: 'Priority scheduling alongside Care members' },
+  ],
+  legal: 'Cosmetic services are not covered by DPC or HSA funds.',
+};
+
+/**
+ * Why the two tracks are billed separately. This sits between the two blocks —
+ * it is the single most important explanation on the pricing page.
+ */
+export const trackSplit =
+  'IASO Care and IASO Glow are billed separately and governed by separate agreements. That is deliberate: a direct primary care arrangement must cover primary care only to stay HSA-eligible under IRS Notice 2026-05 and to remain a registered direct practice under Washington law. Keeping cosmetic services on their own membership protects the tax treatment of your Care fee.';
+
+/* -------------------------------------------------------------------------- */
+/*  How it works                                                               */
+/* -------------------------------------------------------------------------- */
+
+export const careSteps = [
   {
     title: 'Join',
-    body: 'Choose a membership tier and enroll online in a few minutes. No insurance card, no referral, no gatekeeping.',
+    body: 'Choose a tier and enroll in a few minutes. No insurance card, no referral, no gatekeeping.',
   },
   {
     title: 'Meet your physician',
@@ -255,44 +292,47 @@ export const dpcSteps = [
   },
 ];
 
+export const glowSteps = [
+  {
+    title: 'Consult',
+    body: 'A physician-led skin assessment: barrier health, pigment, texture, and what is realistic over the next twelve months.',
+  },
+  {
+    title: 'Bank your credit',
+    body: 'Your monthly fee accrues as credit. Spend it as treatments come due rather than committing to a package up front.',
+  },
+  {
+    title: 'Treat and adjust',
+    body: 'Come in as your plan calls for it. We reassess each season and change the protocol when your skin changes.',
+  },
+];
+
+/* -------------------------------------------------------------------------- */
+/*  Gallery, FAQ, legal                                                        */
+/* -------------------------------------------------------------------------- */
+
 export const gallery = [
-  {
-    label: 'Acne protocol — [N] months',
-    alt: 'Before and after placeholder for an acne treatment course',
-  },
-  {
-    label: 'Melasma & pigment — [N] months',
-    alt: 'Before and after placeholder for a pigmentation treatment course',
-  },
-  {
-    label: 'Glass-skin facial series',
-    alt: 'Before and after placeholder for a facial treatment series',
-  },
-  {
-    label: 'Neuromodulator — [N] weeks',
-    alt: 'Before and after placeholder for a neuromodulator treatment',
-  },
+  { label: 'Acne protocol — [N] months', alt: 'Before and after placeholder for an acne treatment course' },
+  { label: 'Melasma & pigment — [N] months', alt: 'Before and after placeholder for a pigmentation treatment course' },
+  { label: 'Glass-skin facial series', alt: 'Before and after placeholder for a facial treatment series' },
+  { label: 'Neuromodulator — [N] weeks', alt: 'Before and after placeholder for a neuromodulator treatment' },
 ];
 
 export const testimonials = [
-  {
-    quote: '[TESTIMONIAL — ONE OR TWO SENTENCES IN THE PATIENT’S OWN WORDS.]',
-    attribution: '[FIRST NAME, LAST INITIAL]',
-    context: '[MEMBER SINCE YEAR]',
-  },
-  {
-    quote: '[TESTIMONIAL — ONE OR TWO SENTENCES IN THE PATIENT’S OWN WORDS.]',
-    attribution: '[FIRST NAME, LAST INITIAL]',
-    context: '[SERVICE RECEIVED]',
-  },
-  {
-    quote: '[TESTIMONIAL — ONE OR TWO SENTENCES IN THE PATIENT’S OWN WORDS.]',
-    attribution: '[FIRST NAME, LAST INITIAL]',
-    context: '[MEMBER SINCE YEAR]',
-  },
+  { quote: '[TESTIMONIAL — ONE OR TWO SENTENCES IN THE PATIENT’S OWN WORDS.]', attribution: '[FIRST NAME, LAST INITIAL]', context: '[MEMBER SINCE YEAR]' },
+  { quote: '[TESTIMONIAL — ONE OR TWO SENTENCES IN THE PATIENT’S OWN WORDS.]', attribution: '[FIRST NAME, LAST INITIAL]', context: '[SERVICE RECEIVED]' },
+  { quote: '[TESTIMONIAL — ONE OR TWO SENTENCES IN THE PATIENT’S OWN WORDS.]', attribution: '[FIRST NAME, LAST INITIAL]', context: '[MEMBER SINCE YEAR]' },
 ];
 
 export const faqs = [
+  {
+    q: 'Is my DPC membership HSA-eligible?',
+    a: 'Yes. As of January 1, 2026 (IRS Notice 2026-05 under the One Big Beautiful Bill Act), direct primary care fees up to $150 per month for an individual and $300 per month for an arrangement covering more than one person are HSA-qualified. Every IASO Care tier stays within these limits. Aesthetic and cosmetic services are billed separately and are NOT HSA-eligible.',
+  },
+  {
+    q: 'Are aesthetic treatments included in membership?',
+    a: 'No — they are billed separately to keep your Care membership HSA-eligible and compliant with Washington law. IASO Care members do receive member rates on every IASO Glow service, an annual skin-health consultation, and priority booking.',
+  },
   {
     q: 'Do you accept insurance?',
     a: 'No. By stepping outside insurance billing we keep pricing transparent, spend real time with you, and avoid surprise bills. We recommend members carry a high-deductible or catastrophic plan for hospitalizations and emergencies.',
@@ -306,16 +346,12 @@ export const faqs = [
     a: '[ANSWER — EXPLAIN THE DIFFERENCE AS YOU PRACTICE IT: NO INSURANCE BILLING, FLAT MONTHLY FEE, SMALL PANEL SIZE.]',
   },
   {
-    q: 'Are aesthetic treatments included in my membership?',
-    a: '[ANSWER — CLARIFY WHAT MEMBERSHIP COVERS VERSUS WHAT IS BILLED PER TREATMENT, AND ANY MEMBER DISCOUNT.]',
-  },
-  {
     q: 'How large is the patient panel?',
     a: '[ANSWER — STATE YOUR PANEL CAP, e.g. "We cap the practice at [N] members so access stays real."]',
   },
   {
     q: 'When does IASO MD open?',
-    a: '[ANSWER — OPENING TIMELINE AND WHAT JOINING THE WAITLIST GETS THEM, e.g. FOUNDING-MEMBER PRICING.]',
+    a: '[ANSWER — OPENING TIMELINE AND WHAT FOUNDING MEMBERSHIP GETS THEM.]',
   },
 ];
 
@@ -323,8 +359,22 @@ export const legal = {
   disclaimer:
     'This website is for general information only and is not medical advice. IASO MD is a Direct Primary Care practice and is not health insurance.',
   supervising:
-    'Medical services are provided under the supervision of [SUPERVISING PHYSICIAN NAME, MD] — [STATE] license [LICENSE #].',
+    'Medical services are provided under the supervision of [SUPERVISING PHYSICIAN NAME, MD] — Washington license [LICENSE #].',
   results:
     'Photographs are of actual patients, published with written consent. Individual results vary and no outcome is guaranteed.',
-  phi: 'Please do not submit any medical or health information through this form.',
+  agreement:
+    'This agreement does not provide comprehensive health insurance coverage. It provides only the health care services specifically described.',
+};
+
+/* -------------------------------------------------------------------------- */
+/*  Coming soon — stands in for the waitlist until a form backend is wired up  */
+/* -------------------------------------------------------------------------- */
+
+export const comingSoon = {
+  eyebrow: 'Coming soon',
+  title: 'IASO MD is not open yet.',
+  body:
+    'We are building a practice small enough that your physician knows your name and your history. Founding membership opens [MONTH YEAR].',
+  /* Flip to true and restore the form once a backend is chosen. */
+  waitlistOpen: false,
 };

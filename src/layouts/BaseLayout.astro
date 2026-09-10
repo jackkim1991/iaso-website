@@ -112,14 +112,27 @@ const schema = {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,600&family=Inter:wght@400;500;600&display=swap"
     />
 
     <script is:inline set:html={JSON.stringify(schema)} type="application/ld+json" />
 
-    <!-- Runs before paint so the no-JS fallback never flashes. -->
+    <!-- Runs before paint, so nothing is hidden unless we can reveal it again.
+         .js       — scripting is available, the reveal fallback may hide things
+         .css-scroll — the browser drives reveals itself, off the main thread -->
     <script is:inline>
-      document.documentElement.classList.remove('no-js');
+      (function () {
+        var root = document.documentElement;
+        root.classList.remove('no-js');
+        root.classList.add('js');
+        if (
+          window.CSS &&
+          CSS.supports &&
+          CSS.supports('animation-timeline', 'view()')
+        ) {
+          root.classList.add('css-scroll');
+        }
+      })();
     </script>
   </head>
 
@@ -151,7 +164,16 @@ const schema = {
         var goTo = function (id, behavior) {
           var target = document.getElementById(id);
           if (!target) return false;
-          target.scrollIntoView({ behavior: behavior, block: 'start' });
+
+          // Lenis owns the scroll position when it is running on desktop, so
+          // scrollIntoView would fight it. Checked at click time because the
+          // module script that creates it loads after this inline one.
+          if (window.__lenis && behavior === 'smooth') {
+            window.__lenis.scrollTo(target, { offset: -96 });
+          } else {
+            target.scrollIntoView({ behavior: behavior, block: 'start' });
+          }
+
           // Move focus so keyboard and screen-reader users follow the jump.
           if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
           target.focus({ preventScroll: true });
@@ -194,32 +216,55 @@ const schema = {
       })();
     </script>
 
-    <!-- Scroll reveal + parallax. ~25 lines, no dependencies, and both are
-         skipped entirely when the visitor prefers reduced motion. -->
+    <!-- Scroll reveal + parallax. No dependencies. Both are skipped entirely
+         when the visitor prefers reduced motion, and the reveal observer is
+         skipped again when the browser drives the same animation itself. -->
     <script is:inline>
       (function () {
-        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-        if (reduced.matches) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-        var revealables = document.querySelectorAll('[data-reveal]');
-        if ('IntersectionObserver' in window) {
-          var io = new IntersectionObserver(
-            function (entries) {
-              entries.forEach(function (entry) {
-                if (!entry.isIntersecting) return;
-                entry.target.setAttribute('data-revealed', '');
-                io.unobserve(entry.target);
-              });
-            },
-            { rootMargin: '0px 0px -12% 0px', threshold: 0.08 }
-          );
-          revealables.forEach(function (el) {
-            io.observe(el);
-          });
-        } else {
-          revealables.forEach(function (el) {
-            el.setAttribute('data-revealed', '');
-          });
+        var root = document.documentElement;
+
+        // Moment 2: section reveal. Native scroll-driven CSS handles this
+        // wherever it is supported; this observer is only the fallback.
+        if (!root.classList.contains('css-scroll')) {
+          var revealables = document.querySelectorAll('[data-reveal], [data-draw]');
+
+          if ('IntersectionObserver' in window) {
+            var io = new IntersectionObserver(
+              function (entries) {
+                entries.forEach(function (entry) {
+                  if (!entry.isIntersecting) return;
+                  var el = entry.target;
+
+                  // Stagger siblings 60ms apart so a group arrives as a group.
+                  var siblings = el.parentElement
+                    ? Array.prototype.filter.call(
+                        el.parentElement.children,
+                        function (node) {
+                          return node.hasAttribute('data-reveal');
+                        }
+                      )
+                    : [];
+                  var index = siblings.indexOf(el);
+                  if (index > 0) {
+                    el.style.transitionDelay = Math.min(index, 6) * 60 + 'ms';
+                  }
+
+                  el.setAttribute('data-revealed', '');
+                  io.unobserve(el);
+                });
+              },
+              { rootMargin: '0px 0px -12% 0px', threshold: 0.08 }
+            );
+            revealables.forEach(function (el) {
+              io.observe(el);
+            });
+          } else {
+            revealables.forEach(function (el) {
+              el.setAttribute('data-revealed', '');
+            });
+          }
         }
 
         var layers = document.querySelectorAll('.parallax-layer');
@@ -240,6 +285,26 @@ const schema = {
           onScroll();
         }
       })();
+    </script>
+
+    <!-- Lenis smooth scroll — desktop pointer devices only, and never when the
+         visitor prefers reduced motion. ~3KB; the nav scroll handler above
+         hands off to it through window.__lenis when it is running. -->
+    <script>
+      const wantsMotion = window.matchMedia('(prefers-reduced-motion: no-preference)');
+      const isDesktop = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)');
+
+      if (wantsMotion.matches && isDesktop.matches) {
+        const { default: Lenis } = await import('lenis');
+        const lenis = new Lenis({ duration: 1.05, smoothWheel: true });
+        window.__lenis = lenis;
+
+        const raf = (time) => {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        };
+        requestAnimationFrame(raf);
+      }
     </script>
   </body>
 </html>

@@ -1,143 +1,85 @@
-# Content checklist — IASO MD
+# Content checklist
 
-Everything below is a `[PLACEHOLDER]` currently on the live site. Almost all of
-them live in one file: **`src/data/site.ts`**. Edit that file, save, and the whole
-site updates.
+Everything the site still needs from you. Almost all of it lives in one file:
+**`src/data/site.ts`**. Search that file for the bracketed text and replace it.
 
-To find every remaining placeholder at any time:
-
-```bash
-grep -rn "\[" src/data/site.ts
-```
-
-Items marked **LAUNCH BLOCKER** will visibly break or mislead visitors if the site
-goes live without them.
+Items marked **BLOCKER** should be resolved before the site goes in front of
+patients.
 
 ---
 
-## 1. Practice identity
+## Blockers
 
-| Item | Where | Status |
+| What | Where | Notes |
 | --- | --- | --- |
-| Clinic name — currently **IASO MD** (the old site said "IASO Medical") | `site.name`, `site.legalName` | Confirm which is legally correct |
-| Tagline — "Korean skincare science, led by your physician." | `site.tagline`, and the two-line headline in `src/sections/Hero.astro` | Confirm or replace |
-| `[MONTH YEAR]` opening date | `site.openingStatus` | **LAUNCH BLOCKER** |
+| **BLOCKER** Physician name | `physician.name`, `trust.credentials` | Appears in the About section, the Trust block, and the schema.org data. The previous site said *Jin Bum (Jack) Kim, MD* — confirm the form you want published. |
+| **BLOCKER** Board certification | `physician.credentials`, `trust.credentials` | Advertising a specialty you are not board-certified in is a licensing problem in most states. |
+| **BLOCKER** Supervising physician + license | `legal.supervising` | Required for advertising compliance. |
+| **BLOCKER** Street address, city, ZIP | `contact.*` | Also feeds the map link and the LocalBusiness schema. |
+| **BLOCKER** Phone + email | `contact.phone`, `contact.phoneHref`, `contact.email` | With no form backend, these are the only ways to reach you. `phoneHref` is digits only, e.g. `tel:+12065550100`. |
+| **BLOCKER** Enrollment fee | `care.enrollment` → `[ENROLLMENT_FEE]` | |
+| **BLOCKER** Founding rate, Couple and Family | `careTiers[].founding` | Individual is set at $99. Matching that 23% discount would be roughly **$183** Couple and **$229** Family — your call. |
+| **BLOCKER** Opening month and year | `site.openingStatus`, `comingSoon.body` → `[MONTH YEAR]` | |
 
-Alternate taglines if you want to swap: *"Physician-led skin, unhurried care."* ·
-*"Where Korean skincare meets your primary care."* · *"Healing, refined."*
+## Pricing and program details
 
-## 2. Physician
+- `[13–14]` / `[16–18]` — member and non-member neurotoxin price per unit (`glow.includes`)
+- `[12]` — how many months Glow credit rolls over (`glow.includes`)
+- `[LENGTH]` — length of the first Care visit, in minutes (`careSteps`)
+- `[N]` — panel cap, and the durations quoted in gallery captions
 
-| Item | Where |
-| --- | --- |
-| `[PHYSICIAN NAME], MD` — the old site says **Jin Bum (Jack) Kim, MD** (kept in `physician.knownName`); set `physician.name` to the form you want published | `physician.name` |
-| `[BOARD CERTIFICATION]` — e.g. "Board-Certified in Family Medicine" | `physician.credentials` |
-| `[STATE MEDICAL LICENSE #]` | `physician.license` |
-| `[RESIDENCY PROGRAM]` | `physician.residency` |
-| `[ADD ONE OR TWO SENTENCES IN YOUR OWN VOICE…]` — why you started IASO MD | `physician.philosophy[2]` |
-| Professional headshot — save as `public/headshot.jpg` (or `.png`/`.webp`) and it replaces the placeholder frame automatically. Aim for a 4:5 portrait, at least 800×1000. | `public/` |
+## Washington direct practice registration
 
-## 3. Contact / NAP — **LAUNCH BLOCKER**
+`trust.waRegistration` is `null`, which hides the registration line entirely.
+Once the Office of the Insurance Commissioner approves the practice under
+RCW 48.150, set it to the finished sentence, for example:
 
-These feed the footer, the contact page, **and** the `MedicalClinic` schema.org
-block that Google reads, so wrong values here propagate.
+```ts
+waRegistration: 'Registered Washington Direct Practice (RCW 48.150) — March 2027',
+```
 
-| Item | Where |
-| --- | --- |
-| `[STREET ADDRESS, SUITE]`, `[CITY]`, `[ZIP]` (state is already `WA`) | `contact.streetAddress`, `.addressLocality`, `.postalCode` |
-| `[PHONE]` (display) and `[PHONE-DIGITS]` (the `tel:` link, e.g. `tel:+12065550100`) | `contact.phone`, `contact.phoneHref` |
-| `[EMAIL]` | `contact.email` |
-| `[STREET ADDRESS, CITY, WA ZIP]` for the directions link | `contact.mapQuery` |
-| Opening hours — four rows, all bracketed | `contact.hours` |
-| `[MAP EMBED]` — the map is a styled placeholder box; drop in a Google Maps iframe once the address is public | `src/sections/Contact.astro` |
-| `[INSTAGRAM URL]`, `[FACEBOOK URL]`, `[LINKEDIN URL]` — delete any row you will not use | `contact.social` |
+Do not publish that line before the registration is granted.
 
-## 4. Forms — **LAUNCH BLOCKER**
+## Copy still to write
 
-Create two forms at <https://formspree.io> and paste their IDs. Until you do,
-both forms post to `https://formspree.io/f/[FORM_ID]` and **submissions are
-lost**. A reminder shows in `npm run dev` but never in production.
+- `physician.philosophy[2]` — one or two sentences in your own voice on why you started IASO MD
+- Six service descriptions — `services[].summary`, each marked `[DESCRIPTION — …]`
+- Three FAQ answers — concierge vs DPC, panel size, opening timeline
+- Three `[REVIEW]` quotes in `trust.reviews` and three `[TESTIMONIAL]` quotes in `testimonials`
 
-| Item | Where |
-| --- | --- |
-| `[FORM_ID]` — contact form | `forms.contactId` |
-| `[WAITLIST_FORM_ID]` — waitlist capture | `forms.waitlistId` |
+Reviews and testimonials must be real and attributable. Fabricated patient
+reviews are an FTC matter, not just a taste question.
 
-Both forms deliberately collect no health information and carry the notice
-*"Please do not submit any medical or health information through this form."*
-Keep it that way — Formspree is not a HIPAA-compliant channel.
+## Images
 
-## 5. Services
+| Asset | Where | Spec |
+| --- | --- | --- |
+| Corrected logo | `public/mark.svg` | **Commissioned.** Icon only, no wordmark — the site sets "IASO MD" in type beside it. Drop the file in `/public` and it is picked up automatically. Also ask for `lockup-horizontal.svg`, `lockup-stacked.svg`, and ink/cream single-colour variants. |
+| Physician headshot | `public/headshot.jpg` | 4:5 portrait, 800×1000 or larger |
+| Before/after photos | `src/sections/Gallery.astro` | **Never publish a patient photo without a signed media release.** |
+| Hero background | `src/assets/hero.png` | Overwrite, keep the filename; Astro re-optimizes it |
 
-Seven cards in `services`. Each has a `[DESCRIPTION …]` prompt to replace:
+After replacing the logo, run `npm run icons` to regenerate the favicon set and
+the social card.
 
-- Korean Aesthetics — your approach, 1–2 sentences
-- Botox & Neuromodulators — products offered and typical unit ranges
-- Laser Treatments — the devices/platforms you will offer
-- Skin Boosters — booster names and expected series length
-- Facials & Glass Skin — treatment length and what is included
-- K-Beauty Skincare Consultation — consult length and follow-up cadence
-- Primary Care & DPC Membership — already written, confirm it is accurate
+## Social
 
-Two cards reuse the videos from the old site (`public/videos/skin.mp4`,
-`public/videos/dpc.mp4`). Replace or remove via the `video:` field.
+`[INSTAGRAM URL]`, `[FACEBOOK URL]`, `[LINKEDIN URL]` in `contact.social`.
+Delete any row you are not going to use — an empty social link is worse than
+none.
 
-## 6. Pricing — **LAUNCH BLOCKER**
+## Forms
 
-| Item | Where |
-| --- | --- |
-| Individual `$99/mo` — carried over from the old site, **confirm before launch** | `tiers[0].price` |
-| Couple `[$X]` | `tiers[1].price` |
-| Family `[$X]` — plus `[UP TO N CHILDREN]` and `[AGES COVERED]` | `tiers[2].price`, `.blurb`, `.includes` |
-| `[MEMBER PRICING ON AESTHETIC SERVICES — %]` | `tiers[0].includes` |
-| `[ADDITIONAL COUPLE BENEFIT]`, `[ADDITIONAL FAMILY BENEFIT]` | `tiers[1..2].includes` |
-| `[$X]` enrollment fee, `[N]` days cancellation notice | `enrollmentNotes` |
+There is **no form backend wired up**. The waitlist is a "coming soon" panel and
+the contact section points at your email and phone. See *Turning the forms back
+on* in the README when you are ready.
 
-## 7. How DPC works
+---
 
-- `[LENGTH]`-minute first visit → `dpcSteps[1].body`
+## Verify before launch
 
-## 8. Before & after gallery
-
-- Four `[IMAGE]` slot pairs and their `[N] months` / `[N] weeks` labels → `gallery`
-- Replace the placeholder boxes in `src/sections/Gallery.astro` with real `<img>`
-  tags once you have consented photos. **Do not publish any patient photograph
-  without a signed, treatment-specific media release.**
-
-## 9. Testimonials
-
-- Three `[TESTIMONIAL …]` quotes plus `[FIRST NAME, LAST INITIAL]`,
-  `[MEMBER SINCE YEAR]`, `[SERVICE RECEIVED]` → `testimonials`
-- Check your state's rules on advertising testimonials before publishing.
-
-## 10. FAQ
-
-Two answers are already real (insurance, hospitalization). Four need writing:
-
-- Is DPC the same as concierge medicine?
-- Are aesthetic treatments included in membership?
-- How large is the patient panel? (`[N]` cap)
-- When does IASO MD open?
-
-## 11. Legal / compliance — **LAUNCH BLOCKER**
-
-| Item | Where |
-| --- | --- |
-| `[SUPERVISING PHYSICIAN NAME, MD]`, `[STATE]`, `[LICENSE #]` in the footer | `legal.supervising` |
-| Medical disclaimer — already written, confirm the wording suits your state | `legal.disclaimer` |
-| Results/consent notice on the gallery | `legal.results` |
-
-## 12. Images
-
-| Item | Where |
-| --- | --- |
-| `public/logo.png` — currently the logo from the old site. Replacing it? Drop in the new file (or `logo.svg`, which wins if present) then run `npm run icons` to regenerate the favicon set and the social card. | `public/` |
-| **Wordmark conflict:** the logo image has "IASO **medical**" baked into it, while the site name beside it reads "IASO **MD**". Either commission a logo without text (best), or drop the text wordmark from `src/components/Logo.astro`. | `public/logo.png`, `src/components/Logo.astro` |
-| `src/assets/hero.png` — the hero background, reused from the old site. Replace the file, keep the name. | `src/assets/` |
-| `public/og-image.png` — generated; regenerate with `npm run icons` | `public/` |
-
-## 13. Domain — **LAUNCH BLOCKER**
-
-`iasomd.com` currently resolves through **Cloudflare**, not GitHub Pages. See the
-"Custom domain" section of `README.md` for the DNS records to change before the
-custom domain will serve this site.
+- [ ] A Washington healthcare attorney has reviewed the Care agreement, the Glow terms, and the HSA framing
+- [ ] The HSA claim still matches current IRS guidance (Notice 2026-05 caps: $150/mo individual, $300/mo for more than one person, indexed after 2026)
+- [ ] Family at $299 and the 65+ rate at $149 both remain under the $300 and $150 caps
+- [ ] Direct practice registration filed with the WA Office of the Insurance Commissioner
+- [ ] Every published review is real, attributable, and consented to

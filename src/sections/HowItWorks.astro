@@ -1,0 +1,67 @@
+---
+import Section from '../components/Section.astro';
+import { careSteps, glowSteps } from '../data/site';
+---
+
+<Section
+  id="how-it-works"
+  eyebrow="How it works"
+  title="Two tracks, one physician"
+  intro="Care is your medical home. Glow is what you add when you want to work on your skin. Joining either takes minutes."
+>
+  <div class="grid gap-16 lg:grid-cols-[1.25fr_1fr] lg:gap-20">
+    <!-- ------------------------------------------------------- IASO Care -->
+    <div>
+      <div class="flex items-baseline gap-4">
+        <h3 class="font-serif text-2xl text-ink">IASO Care</h3>
+        <hr class="rule-gold flex-1" data-draw />
+      </div>
+
+      <ol class="mt-10 space-y-10">
+        {
+          careSteps.map((step, index) => (
+            <li class="grid grid-cols-[3rem_1fr] gap-6" data-reveal>
+              <span
+                class="font-serif text-3xl leading-none text-gold-text tabular-nums"
+                aria-hidden="true"
+              >
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <div>
+                <h4 class="font-serif text-xl text-ink">{step.title}</h4>
+                <p class="mt-2 leading-relaxed text-neutral">{step.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <!-- ------------------------------------------------------- IASO Glow -->
+    <div>
+      <div class="flex items-baseline gap-4">
+        <h3 class="font-serif text-2xl text-ink">IASO Glow</h3>
+        <hr class="rule-gold flex-1" data-draw />
+      </div>
+
+      <ol class="mt-10 space-y-10">
+        {
+          glowSteps.map((step, index) => (
+            <li class="grid grid-cols-[3rem_1fr] gap-6" data-reveal>
+              <span
+                class="font-serif text-3xl leading-none text-gold-text tabular-nums"
+                aria-hidden="true"
+              >
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <div>
+                <h4 class="font-serif text-xl text-ink">{step.title}</h4>
+                <p class="mt-2 leading-relaxed text-neutral">{step.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</Section>

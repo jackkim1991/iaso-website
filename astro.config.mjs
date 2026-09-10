@@ -14,7 +14,7 @@ export default defineConfig({
     '/services': '/#services',
     '/membership': '/#membership',
     '/contact': '/#contact',
-    '/waitlist': '/#waitlist',
+    '/waitlist': '/#coming-soon',
   },
   integrations: [
     // Only the real page belongs in the sitemap — never the redirect stubs.

@@ -26,7 +26,7 @@ const toneClass = {
 }[tone];
 
 const headingClass = tone === 'ink' ? 'text-cream' : 'text-ink';
-const introClass = tone === 'ink' ? 'text-cream/70' : 'text-muted';
+const introClass = tone === 'ink' ? 'text-cream/70' : 'text-neutral';
 const eyebrowClass = tone === 'ink' ? 'eyebrow eyebrow--light' : 'eyebrow';
 const alignClass = align === 'center' ? 'text-center mx-auto' : 'text-left';
 ---
@@ -44,6 +44,7 @@ const alignClass = align === 'center' ? 'text-center mx-auto' : 'text-left';
           )}
           <hr
             class={`rule-gold--short mt-8 ${align === 'center' ? 'mx-auto' : ''}`}
+            data-draw
           />
           {intro && <p class={`mt-8 text-lg leading-relaxed ${introClass}`}>{intro}</p>}
         </div>

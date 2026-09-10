@@ -1,7 +1,6 @@
 ---
 import Section from '../components/Section.astro';
-import Button from '../components/Button.astro';
-import { tiers, enrollmentNotes } from '../data/site';
+import { care, careTiers, trackSplit } from '../data/site';
 ---
 
 <Section
@@ -9,132 +8,167 @@ import { tiers, enrollmentNotes } from '../data/site';
   tone="warm"
   eyebrow="Membership & Pricing"
   title="One flat monthly fee. No copays, no surprises."
-  intro="Membership covers your primary care relationship in full. Aesthetic and dermatology procedures are priced separately and transparently."
+  intro={care.intro}
 >
-  <!-- Focusable so keyboard users can scroll the table horizontally on narrow
-       screens; the caption explains what the table contains. -->
-  <div
-    class="overflow-x-auto border border-gold/30 bg-cream"
-    tabindex="0"
-    role="region"
-    aria-labelledby="pricing-caption"
+  <!-- ------------------------------------------------ Track one: IASO Care -->
+  <div class="border border-gold/30 bg-cream" data-reveal>
+    <div class="flex flex-col gap-4 border-b border-gold/30 p-8 sm:flex-row sm:items-end sm:justify-between sm:p-10">
+      <div>
+        <p class="eyebrow">{care.kicker}</p>
+        <h3 class="mt-3 font-serif text-3xl text-ink sm:text-4xl">{care.name}</h3>
+      </div>
+      <p
+        class="inline-flex max-w-sm items-start gap-2 border border-gold/50 px-4 py-3 text-sm leading-snug text-ink"
+      >
+        <svg
+          class="mt-0.5 h-4 w-4 shrink-0 text-gold"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.4"
+          aria-hidden="true"
+        >
+          <circle cx="8" cy="8" r="6.5"></circle>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5.5 8.2 7.2 10l3.3-4"></path>
+        </svg>
+        <span>{care.hsaBadge}</span>
+      </p>
+    </div>
+
+    <!-- Focusable so keyboard users can scroll the table on narrow screens. -->
+    <div
+      class="overflow-x-auto"
+      tabindex="0"
+      role="region"
+      aria-labelledby="care-caption"
+    >
+      <table class="w-full min-w-[42rem] border-collapse text-left">
+        <caption id="care-caption" class="sr-only">
+          IASO Care Direct Primary Care membership tiers, who each covers, the
+          monthly fee, and the founding-member rate.
+        </caption>
+        <thead>
+          <tr class="border-b border-gold/25">
+            <th scope="col" class="w-44 p-8 pb-5 align-bottom">
+              <span class="eyebrow">Tier</span>
+            </th>
+            {
+              careTiers.map((tier) => (
+                <th scope="col" class="p-8 pb-5 align-bottom">
+                  <span class="flex flex-wrap items-baseline gap-3">
+                    <span class="font-serif text-3xl font-semibold text-ink">
+                      {tier.name}
+                    </span>
+                    {tier.featured && (
+                      <span class="rounded-full border border-gold px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-gold-text">
+                        Most chosen
+                      </span>
+                    )}
+                  </span>
+                </th>
+              ))
+            }
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr class="border-b border-gold/15">
+            <th scope="row" class="p-8 py-6 align-top">
+              <span class="text-[11px] font-medium uppercase tracking-[0.22em] text-neutral">
+                Monthly
+              </span>
+            </th>
+            {
+              careTiers.map((tier) => (
+                <td class="p-8 py-6 align-top">
+                  <span class="font-serif text-4xl font-semibold text-ink tabular-nums">
+                    {tier.price}
+                  </span>
+                  <span class="ml-1 text-sm text-neutral">{tier.cadence}</span>
+                </td>
+              ))
+            }
+          </tr>
+
+          <tr class="border-b border-gold/15">
+            <th scope="row" class="p-8 py-6 align-top">
+              <span class="text-[11px] font-medium uppercase tracking-[0.22em] text-neutral">
+                Covers
+              </span>
+            </th>
+            {careTiers.map((tier) => <td class="p-8 py-6 align-top text-neutral">{tier.covers}</td>)}
+          </tr>
+
+          <tr>
+            <th scope="row" class="p-8 py-6 align-top">
+              <span class="text-[11px] font-medium uppercase tracking-[0.22em] text-neutral">
+                Founding 100
+              </span>
+            </th>
+            {
+              careTiers.map((tier) => (
+                <td class="p-8 py-6 align-top">
+                  <span class="font-serif text-2xl text-gold-text tabular-nums">
+                    {tier.founding}
+                  </span>
+                  <span class="ml-1 text-sm text-neutral">for life</span>
+                </td>
+              ))
+            }
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid gap-10 border-t border-gold/25 p-8 sm:p-10 lg:grid-cols-2">
+      <div>
+        <h4 class="text-[11px] font-medium uppercase tracking-[0.22em] text-neutral">
+          Every tier includes
+        </h4>
+        <ul class="mt-5 space-y-3">
+          {
+            care.includes.map((item) => (
+              <li class="flex gap-3 text-base leading-relaxed text-ink">
+                <svg
+                  class="mt-2 h-3 w-3 shrink-0 text-gold"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  aria-hidden="true"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M1 6.5 4.5 10 11 2" />
+                </svg>
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="flex flex-col gap-6">
+        <div class="border border-gold/40 p-6">
+          <p class="eyebrow">{care.founding.label}</p>
+          <p class="mt-3 leading-relaxed text-ink">{care.founding.body}</p>
+        </div>
+        <ul class="space-y-2 text-sm leading-relaxed text-neutral">
+          <li>— {care.seniorNote}</li>
+          <li>— {care.enrollment}</li>
+          <li>— {care.hsaDetail}</li>
+        </ul>
+        <p class="border-l-2 border-gold pl-4 text-sm font-medium text-ink">
+          {care.legal}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ------------------------------------- Why the two tracks are separate -->
+  <aside
+    class="mx-auto mt-12 max-w-3xl border-l-2 border-gold bg-cream p-8"
     data-reveal
   >
-    <table class="w-full min-w-[46rem] border-collapse text-left">
-      <caption id="pricing-caption" class="sr-only">
-        Monthly Direct Primary Care membership tiers, what each includes, and how
-        to enroll.
-      </caption>
-      <thead>
-        <tr class="border-b border-gold/30">
-          <th scope="col" class="w-48 p-8 align-bottom">
-            <span class="eyebrow">Membership</span>
-          </th>
-          {
-            tiers.map((tier) => (
-              <th scope="col" class="p-8 align-bottom">
-                <span class="flex items-baseline gap-3">
-                  <span class="font-serif text-3xl font-normal text-ink">
-                    {tier.name}
-                  </span>
-                  {tier.featured && (
-                    <span class="rounded-full border border-gold px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-gold-deep">
-                      Most chosen
-                    </span>
-                  )}
-                </span>
-              </th>
-            ))
-          }
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr class="border-b border-gold/20">
-          <th scope="row" class="p-8 align-top text-[11px] font-medium uppercase tracking-[0.22em] text-muted">
-            Monthly fee
-          </th>
-          {
-            tiers.map((tier) => (
-              <td class="p-8 align-top">
-                <span class="font-serif text-4xl text-ink">{tier.price}</span>
-                <span class="ml-1 text-sm text-muted">{tier.cadence}</span>
-              </td>
-            ))
-          }
-        </tr>
-
-        <tr class="border-b border-gold/20">
-          <th scope="row" class="p-8 align-top text-[11px] font-medium uppercase tracking-[0.22em] text-muted">
-            Who it is for
-          </th>
-          {tiers.map((tier) => <td class="p-8 align-top text-muted">{tier.blurb}</td>)}
-        </tr>
-
-        <tr class="border-b border-gold/20">
-          <th scope="row" class="p-8 align-top text-[11px] font-medium uppercase tracking-[0.22em] text-muted">
-            What is included
-          </th>
-          {
-            tiers.map((tier) => (
-              <td class="p-8 align-top">
-                <ul class="space-y-2.5">
-                  {tier.includes.map((item) => (
-                    <li class="flex gap-3 text-sm text-ink">
-                      <svg
-                        class="mt-1.5 h-3 w-3 shrink-0 text-gold"
-                        viewBox="0 0 12 12"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.6"
-                        aria-hidden="true"
-                      >
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M1 6.5 4.5 10 11 2" />
-                      </svg>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </td>
-            ))
-          }
-        </tr>
-
-        <tr>
-          <th scope="row" class="p-8 align-top text-[11px] font-medium uppercase tracking-[0.22em] text-muted">
-            Enroll
-          </th>
-          {
-            tiers.map((tier) => (
-              <td class="p-8 align-top">
-                <Button
-                  href="/#waitlist"
-                  variant={tier.featured ? 'solid' : 'outline'}
-                >
-                  <span class="sr-only">Join the waitlist for the {tier.name} membership</span>
-                  <span aria-hidden="true">Join the Waitlist</span>
-                </Button>
-              </td>
-            ))
-          }
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="mt-12 grid gap-10 md:grid-cols-2" data-reveal>
-    <ul class="space-y-3 text-sm leading-relaxed text-muted">
-      {enrollmentNotes.map((note) => <li>— {note}</li>)}
-    </ul>
-
-    <aside class="border border-gold/40 bg-cream p-8">
-      <p class="eyebrow">Important</p>
-      <p class="mt-4 leading-relaxed text-ink">
-        Direct Primary Care is <strong class="font-medium">not health insurance</strong>.
-        Membership covers the care we provide at IASO MD. We recommend keeping a
-        high-deductible or catastrophic plan for hospitalization, emergencies,
-        and specialist care outside this practice.
-      </p>
-    </aside>
-  </div>
+    <p class="eyebrow">Why they are billed separately</p>
+    <p class="mt-4 leading-relaxed text-ink">{trackSplit}</p>
+  </aside>
 </Section>
