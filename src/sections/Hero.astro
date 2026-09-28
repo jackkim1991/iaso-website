@@ -3,16 +3,18 @@ import { Image } from 'astro:assets';
 import heroImage from '../assets/hero.png';
 import Button from '../components/Button.astro';
 import Logo from '../components/Logo.astro';
+import SplitWords from '../components/SplitWords.astro';
 import { site } from '../data/site';
 ---
 
 <section
   class="relative flex min-h-[92svh] items-center overflow-hidden bg-ink"
   aria-labelledby="hero-heading"
+  data-hero
 >
-  <!-- Parallax plate. Decorative, so it carries an empty alt and is hidden
-       from assistive tech; Astro emits responsive webp variants. -->
-  <div class="absolute inset-0 -z-0" aria-hidden="true">
+  <!-- Parallax plate. GSAP scrubs it as the hero scrolls away; decorative, so
+       hidden from assistive tech. Astro emits responsive WebP variants. -->
+  <div class="absolute inset-0 -z-0 will-change-transform" aria-hidden="true" data-hero-plate>
     <Image
       src={heroImage}
       alt=""
@@ -20,63 +22,44 @@ import { site } from '../data/site';
       sizes="100vw"
       loading="eager"
       fetchpriority="high"
-      class="parallax-layer h-full w-full object-cover object-center opacity-45"
+      class="h-[118%] w-full object-cover object-center opacity-45"
     />
     <div class="absolute inset-0 bg-gradient-to-b from-ink/85 via-ink/70 to-ink"></div>
   </div>
 
-  <!-- Moment 1: hero settle. Each child fades up 12px on load, 90ms apart.
-       On load rather than on scroll, so the first frame is already composed. -->
-  <div class="relative z-10 mx-auto w-full max-w-7xl px-6 py-28 lg:px-10">
+  <div class="relative z-10 mx-auto w-full max-w-7xl px-6 py-24 sm:py-28 lg:px-10" data-hero-content>
     <div class="max-w-3xl">
-      <div data-settle style="--settle-order:0">
-        <Logo tone="light" variant="footer" class="mb-10" eager />
+      <div data-hero-pre>
+        <Logo tone="light" variant="footer" class="mb-8 sm:mb-10" eager />
       </div>
 
-      <p class="eyebrow eyebrow--light" data-settle style="--settle-order:1">
-        Korean Aesthetics &middot; Direct Primary Care
+      <p class="eyebrow eyebrow--light" data-hero-pre>
+        Direct Primary Care &middot; Washington State
       </p>
 
-      <h1
-        id="hero-heading"
-        class="mt-7 text-cream"
-        data-settle
-        style="--settle-order:2"
-      >
-        Korean skincare science,
-        <span class="block italic text-gold-light">led by your physician.</span>
+      <h1 id="hero-heading" class="mt-6 text-cream sm:mt-7">
+        <SplitWords text={site.tagline} class="block" />
+        <SplitWords text={site.taglineLine2} class="block italic text-gold-light" />
       </h1>
 
-      <p
-        class="mt-9 max-w-xl leading-relaxed text-cream/75"
-        data-settle
-        style="--settle-order:3"
-      >
+      <p class="mt-8 max-w-xl leading-relaxed text-cream/75 sm:mt-9" data-hero-post>
         {site.description}
       </p>
 
-      <div
-        class="mt-12 flex flex-col gap-4 sm:flex-row"
-        data-settle
-        style="--settle-order:4"
-      >
-        <Button href="/#membership" class="lift">See Membership</Button>
-        <Button href="/#how-it-works" variant="outline-light" class="lift">
+      <div class="mt-10 flex flex-col gap-4 sm:mt-12 sm:flex-row" data-hero-post>
+        <Button href="/#membership" class="lift w-full sm:w-auto">See Membership</Button>
+        <Button href="/#how-it-works" variant="outline-light" class="lift w-full sm:w-auto">
           How it works
         </Button>
       </div>
 
-      <p
-        class="mt-10 text-[11px] uppercase tracking-[0.22em] text-cream/45"
-        data-settle
-        style="--settle-order:5"
-      >
+      <p class="mt-10 text-[11px] uppercase tracking-[0.22em] text-cream/45" data-hero-post>
         {site.openingStatus}
       </p>
     </div>
   </div>
 
-  <div class="absolute inset-x-0 bottom-8 z-10 flex justify-center" aria-hidden="true">
-    <span class="h-14 w-px bg-gradient-to-b from-transparent to-gold/70"></span>
+  <div class="absolute inset-x-0 bottom-8 z-10 hidden justify-center sm:flex" aria-hidden="true" data-hero-post>
+    <span class="scroll-cue h-14 w-px bg-gradient-to-b from-transparent to-gold/70"></span>
   </div>
 </section>

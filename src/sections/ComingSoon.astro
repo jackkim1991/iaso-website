@@ -6,8 +6,8 @@ import { comingSoon, contact, site } from '../data/site';
 const emailReady = !contact.email.startsWith('[');
 ---
 
-<section id="coming-soon" class="bg-ink py-24 text-cream sm:py-32">
-  <div class="mx-auto max-w-3xl px-6 text-center lg:px-10">
+<section id="coming-soon" class="overflow-hidden bg-ink py-20 text-cream sm:py-32" data-drift>
+  <div class="mx-auto max-w-3xl px-6 text-center lg:px-10" data-drift-inner>
     <p class="eyebrow eyebrow--light" data-reveal>{comingSoon.eyebrow}</p>
 
     <h2 class="mt-6 font-serif text-4xl text-cream sm:text-5xl" data-reveal>

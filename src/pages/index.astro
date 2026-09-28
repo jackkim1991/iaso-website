@@ -1,12 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../sections/Hero.astro';
-import About from '../sections/About.astro';
-import Trust from '../sections/Trust.astro';
-import Services from '../sections/Services.astro';
+import WhyDpc from '../sections/WhyDpc.astro';
 import Membership from '../sections/Membership.astro';
-import GlowProgram from '../sections/GlowProgram.astro';
 import HowItWorks from '../sections/HowItWorks.astro';
+import Trust from '../sections/Trust.astro';
+import About from '../sections/About.astro';
+import Services from '../sections/Services.astro';
+import GlowProgram from '../sections/GlowProgram.astro';
 import Gallery from '../sections/Gallery.astro';
 import Testimonials from '../sections/Testimonials.astro';
 import Faq from '../sections/Faq.astro';
@@ -20,13 +21,16 @@ import { site } from '../data/site';
   description={site.description}
   path="/"
 >
+  <!-- Order is the argument: DPC first, the physician, then everything the
+       membership covers, and only then the aesthetics program. -->
   <Hero />
-  <About />
-  <Trust />
-  <Services />
+  <WhyDpc />
   <Membership />
-  <GlowProgram />
   <HowItWorks />
+  <Trust />
+  <About />
+  <Services />
+  <GlowProgram />
   <Gallery />
   <Testimonials />
   <Faq />

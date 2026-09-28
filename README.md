@@ -5,30 +5,48 @@ Primary Care clinic. Built with [Astro](https://astro.build) (static output) and
 [Tailwind CSS v4](https://tailwindcss.com), built and deployed by **Cloudflare
 Pages** on every push to `main`. Live at <https://iasomd.com>.
 
-No JavaScript frameworks, no jQuery, no GSAP. The site ships about 24 KB of
-JavaScript in total, most of it Lenis. Everything else is a few inline scripts:
-a mobile menu toggle, hash-free in-page navigation, a scroll-reveal fallback,
-and the hero parallax.
+No JavaScript frameworks, no jQuery. Motion is driven by **GSAP + ScrollTrigger**
+(about 40 KB gzipped) from `src/scripts/motion.ts`, with **Lenis** smooth scroll
+loaded only on desktop pointer devices. Everything else is a few small inline
+scripts: the mobile menu, hash-free in-page navigation, and lazy video autoplay.
 
-### The four motion moments
+### What moves
 
-Motion is deliberately limited to four effects, all of them transform and
-opacity only, so they run on the compositor rather than the main thread:
+- **Hero** — the headline slides in word by word, the background plate and the
+  content scrub apart as you scroll away, and the scroll cue breathes.
+- **Ribbon** — a continuous marquee of DPC value props under the hero (pure CSS,
+  pauses on hover).
+- **Section headings** — every `<Section>` title reveals word by word.
+- **Content reveals** — anything with `data-reveal` fades up in staggered
+  batches as it enters.
+- **Hairlines** — every `data-draw` divider draws from zero width.
+- **Counters** — prices with `data-count` count up from zero.
+- **How it works** — a gold line draws down the step numbers as you scroll, and
+  each step brightens as it reaches mid-screen.
+- **Header** — shrinks and gains a hairline shadow once you have scrolled.
+- **Hover lift** — cards and buttons rise on pointer devices.
 
-1. **Hero settle** — headline and CTA fade up 12 px over 600 ms on load
-2. **Section reveal** — content fades up 16 px on entry, siblings staggered 60 ms
-3. **Gold hairline draw** — dividers scale from zero to full width over 800 ms
-4. **Hover lift** — cards and buttons rise 2 px, 140 ms, pointer devices only
+All of it is transform and opacity only, so it stays on the compositor.
 
-Where the browser supports `animation-timeline: view()` the reveals are driven
-natively by CSS with no JavaScript at all — an inline script stamps
-`html.css-scroll` and the IntersectionObserver fallback stands down. Lenis
-smooth scroll loads only on desktop pointer devices.
+**Every effect is off** under `prefers-reduced-motion`, and nothing is hidden
+at rest: elements only leave their visible state after the GSAP module has
+loaded and confirmed it will reveal them. If the bundle never runs — JavaScript
+disabled, a blocked script, a failed fetch — the page reads in full, and the
+hero entrance waits until the tab is actually visible rather than playing to a
+background tab.
 
-**Every one of these is off** when the visitor prefers reduced motion, and
-nothing is ever parked at `opacity: 0` — elements are only hidden after a script
-has confirmed it can reveal them again. The page is fully readable with
-JavaScript disabled.
+### Videos
+
+The two clips in the Services section autoplay muted, loop, and play inline. A
+clip is only fetched once it is within a viewport's height of the screen, plays
+when a quarter of it is visible, and pauses when it scrolls away. Both were
+re-encoded to 720p silent H.264 — `dpc.mp4` went from 12.4 MB to 0.31 MB. To
+replace one, drop the new file in `public/videos/` under the same name and
+re-encode it the same way:
+
+```bash
+ffmpeg -i input.mp4 -an -vf "scale=-2:720,fps=24" -c:v libx264 -preset slow -crf 30 -movflags +faststart public/videos/dpc.mp4
+```
 
 ---
 

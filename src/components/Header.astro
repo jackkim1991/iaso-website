@@ -6,17 +6,17 @@ import { nav } from '../data/site';
 <header
   class="sticky top-0 z-50 border-b border-gold/25 bg-cream/90 backdrop-blur-md no-print"
 >
-  <div class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-6 lg:px-10">
-    <a href="/" class="group -m-2 p-2" aria-label="IASO MD — home">
+  <div class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-6 lg:px-8 xl:px-10">
+    <a href="/" class="group -m-2 shrink-0 p-2" aria-label="IASO MD — home">
       <Logo tone="dark" variant="header" eager />
     </a>
 
-    <nav aria-label="Primary" class="hidden items-center gap-8 lg:flex">
+    <nav aria-label="Primary" class="hidden items-center gap-4 lg:flex xl:gap-7">
       {
         nav.map((item) => (
           <a
             href={item.href}
-            class="label flex items-center text-neutral transition-colors hover:text-ink"
+            class="flex items-center text-[0.6875rem] font-medium uppercase tracking-[0.06em] whitespace-nowrap text-neutral transition-colors hover:text-ink xl:text-[0.8125rem] xl:tracking-[0.08em]"
           >
             {item.label}
           </a>
@@ -29,7 +29,7 @@ import { nav } from '../data/site';
            folded into the hamburger. -->
       <a
         href="/#contact"
-        class="tap lift label flex items-center rounded-full bg-gold px-5 text-ink transition-colors hover:bg-ink hover:text-cream sm:px-6"
+        class="tap lift label flex items-center whitespace-nowrap rounded-full bg-gold px-5 text-ink transition-colors hover:bg-ink hover:text-cream sm:px-6 lg:px-5 xl:px-6"
       >
         Contact
       </a>

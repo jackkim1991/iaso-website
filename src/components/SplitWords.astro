@@ -1,0 +1,27 @@
+---
+/**
+ * Wraps each word in a masked span so GSAP can slide words up into view one
+ * at a time. Without JavaScript the words simply sit in place — the masks
+ * have no effect on layout and the text stays fully readable.
+ */
+export interface Props {
+  text: string;
+  class?: string;
+}
+
+const { text, class: className = '' } = Astro.props;
+const words = text.split(/\s+/).filter(Boolean);
+---
+
+<span class={`split ${className}`} aria-label={text}>
+  {
+    words.map((word, index) => (
+      <span class="split__mask" aria-hidden="true">
+        <span class="split__word" data-word>
+          {word}
+          {index < words.length - 1 ? ' ' : ''}
+        </span>
+      </span>
+    ))
+  }
+</span>

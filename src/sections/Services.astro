@@ -1,61 +1,164 @@
 ---
 import Section from '../components/Section.astro';
 import { services } from '../data/site';
+
+const careServices = services.filter((s) => s.group === 'care');
+const glowServices = services.filter((s) => s.group === 'glow');
+
+const groups = [
+  {
+    key: 'care',
+    kicker: 'Included in IASO Care',
+    heading: 'Primary care, in full',
+    items: careServices,
+  },
+  {
+    key: 'glow',
+    kicker: 'IASO Glow — billed separately',
+    heading: 'Aesthetics, when you want them',
+    items: glowServices,
+  },
+];
 ---
 
 <Section
   id="services"
   eyebrow="Services"
-  title="Two disciplines, one physician"
-  intro="Korean aesthetics in the barrier-first tradition, injectables and lasers performed conservatively, and full-scope primary care — delivered by the same physician who knows your history."
+  title="Your physician, for all of it"
+  intro="Everything below the first divider is covered by your Care membership. Everything below the second is aesthetic, optional, and billed on its own — by the same physician who knows your history."
 >
-  <ul class="grid gap-px border border-gold/25 bg-gold/25 sm:grid-cols-2 lg:grid-cols-3">
+  <div class="space-y-20">
     {
-      services.map((service) => (
-        <li class="lift flex flex-col bg-cream p-10" data-reveal>
-          <h3 class="font-serif text-2xl text-ink">{service.title}</h3>
-          <hr class="rule-gold--short mt-5" />
-          <p class="mt-6 flex-1 leading-relaxed text-neutral">{service.summary}</p>
+      groups.map((group) => (
+        <div>
+          <div class="flex items-baseline gap-4">
+            <div>
+              <p class="eyebrow">{group.kicker}</p>
+              <h3 class="mt-2 font-serif text-2xl text-ink sm:text-3xl">{group.heading}</h3>
+            </div>
+            <hr class="rule-gold mt-4 hidden flex-1 sm:block" data-draw />
+          </div>
 
-          <ul class="mt-7 space-y-2.5">
-            {service.points.map((point) => (
-              <li class="flex gap-3 text-sm text-ink">
-                <svg
-                  class="mt-1.5 h-3 w-3 shrink-0 text-gold"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.6"
-                  aria-hidden="true"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M1 6.5 4.5 10 11 2" />
-                </svg>
-                <span>{point}</span>
+          <ul class="mt-8 grid gap-px border border-gold/25 bg-gold/25 sm:grid-cols-2 lg:grid-cols-3">
+            {group.items.map((service) => (
+              <li class="lift flex flex-col bg-cream p-8 sm:p-10" data-reveal>
+                <h4 class="font-serif text-2xl text-ink">{service.title}</h4>
+                <hr class="rule-gold--short mt-5" data-draw />
+                <p class="mt-6 flex-1 leading-relaxed text-neutral">{service.summary}</p>
+
+                <ul class="mt-7 space-y-2.5">
+                  {service.points.map((point) => (
+                    <li class="flex gap-3 text-sm text-ink">
+                      <svg
+                        class="mt-1.5 h-3 w-3 shrink-0 text-gold"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        aria-hidden="true"
+                      >
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M1 6.5 4.5 10 11 2" />
+                      </svg>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {service.video && (
+                  <!-- Plays on its own, muted, once it scrolls near the viewport.
+                       The file is not fetched until then — see the script below. -->
+                  <video
+                    class="mt-8 aspect-video w-full border border-gold/25 bg-ink object-cover"
+                    data-src={service.video}
+                    preload="none"
+                    muted
+                    loop
+                    playsinline
+                    disablepictureinpicture
+                    aria-label={`Short clip illustrating ${service.title} at IASO MD`}
+                  >
+                    Your browser does not support embedded video.
+                  </video>
+                )}
               </li>
             ))}
           </ul>
-
-          {service.video && (
-            <video
-              class="mt-8 aspect-video w-full border border-gold/25 object-cover"
-              src={service.video}
-              preload="none"
-              muted
-              loop
-              playsinline
-              controls
-              aria-label={`Short clip illustrating ${service.title} at IASO MD`}
-            >
-              Your browser does not support embedded video.
-            </video>
-          )}
-        </li>
+        </div>
       ))
     }
-  </ul>
+  </div>
 
-  <p class="mt-10 text-sm leading-relaxed text-neutral">
+  <p class="mt-12 text-sm leading-relaxed text-neutral" data-reveal>
     Treatment suitability is determined at consultation. Not every treatment is
     appropriate for every patient, and no result is guaranteed.
   </p>
 </Section>
+
+<!-- Lazy autoplay. Each clip loads only when it is within a viewport's height
+     of the screen, plays muted on its own, and pauses again when scrolled
+     away. Visitors who prefer reduced motion get a paused clip with controls. -->
+<script is:inline>
+  (function () {
+    var videos = document.querySelectorAll('video[data-src]');
+    if (!videos.length) return;
+
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var load = function (video) {
+      if (video.dataset.loaded) return;
+      video.dataset.loaded = '1';
+      video.src = video.dataset.src;
+      video.muted = true;
+      if (reduced) {
+        video.controls = true;
+        video.preload = 'metadata';
+      }
+      video.load();
+    };
+
+    var play = function (video) {
+      if (reduced) return;
+      var attempt = video.play();
+      if (attempt && attempt.catch) attempt.catch(function () {});
+    };
+
+    if (!('IntersectionObserver' in window)) {
+      videos.forEach(function (v) {
+        load(v);
+        play(v);
+      });
+      return;
+    }
+
+    var loader = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          load(entry.target);
+          loader.unobserve(entry.target);
+        });
+      },
+      { rootMargin: '100% 0px' }
+    );
+
+    var player = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          var video = entry.target;
+          if (entry.isIntersecting) {
+            load(video);
+            play(video);
+          } else if (!video.paused) {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+
+    videos.forEach(function (v) {
+      loader.observe(v);
+      player.observe(v);
+    });
+  })();
+</script>

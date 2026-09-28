@@ -216,95 +216,11 @@ const schema = {
       })();
     </script>
 
-    <!-- Scroll reveal + parallax. No dependencies. Both are skipped entirely
-         when the visitor prefers reduced motion, and the reveal observer is
-         skipped again when the browser drives the same animation itself. -->
-    <script is:inline>
-      (function () {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-        var root = document.documentElement;
-
-        // Moment 2: section reveal. Native scroll-driven CSS handles this
-        // wherever it is supported; this observer is only the fallback.
-        if (!root.classList.contains('css-scroll')) {
-          var revealables = document.querySelectorAll('[data-reveal], [data-draw]');
-
-          if ('IntersectionObserver' in window) {
-            var io = new IntersectionObserver(
-              function (entries) {
-                entries.forEach(function (entry) {
-                  if (!entry.isIntersecting) return;
-                  var el = entry.target;
-
-                  // Stagger siblings 60ms apart so a group arrives as a group.
-                  var siblings = el.parentElement
-                    ? Array.prototype.filter.call(
-                        el.parentElement.children,
-                        function (node) {
-                          return node.hasAttribute('data-reveal');
-                        }
-                      )
-                    : [];
-                  var index = siblings.indexOf(el);
-                  if (index > 0) {
-                    el.style.transitionDelay = Math.min(index, 6) * 60 + 'ms';
-                  }
-
-                  el.setAttribute('data-revealed', '');
-                  io.unobserve(el);
-                });
-              },
-              { rootMargin: '0px 0px -12% 0px', threshold: 0.08 }
-            );
-            revealables.forEach(function (el) {
-              io.observe(el);
-            });
-          } else {
-            revealables.forEach(function (el) {
-              el.setAttribute('data-revealed', '');
-            });
-          }
-        }
-
-        var layers = document.querySelectorAll('.parallax-layer');
-        if (layers.length) {
-          var ticking = false;
-          var onScroll = function () {
-            if (ticking) return;
-            ticking = true;
-            window.requestAnimationFrame(function () {
-              var y = window.scrollY;
-              layers.forEach(function (layer) {
-                layer.style.setProperty('--parallax-y', (y * 0.28).toFixed(1) + 'px');
-              });
-              ticking = false;
-            });
-          };
-          window.addEventListener('scroll', onScroll, { passive: true });
-          onScroll();
-        }
-      })();
-    </script>
-
-    <!-- Lenis smooth scroll — desktop pointer devices only, and never when the
-         visitor prefers reduced motion. ~3KB; the nav scroll handler above
-         hands off to it through window.__lenis when it is running. -->
+    <!-- Site motion: GSAP + ScrollTrigger, Lenis on desktop. Bundled by
+         Astro; skipped entirely under prefers-reduced-motion. The nav
+         handler above hands off to Lenis through window.__lenis. -->
     <script>
-      const wantsMotion = window.matchMedia('(prefers-reduced-motion: no-preference)');
-      const isDesktop = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)');
-
-      if (wantsMotion.matches && isDesktop.matches) {
-        const { default: Lenis } = await import('lenis');
-        const lenis = new Lenis({ duration: 1.05, smoothWheel: true });
-        window.__lenis = lenis;
-
-        const raf = (time) => {
-          lenis.raf(time);
-          requestAnimationFrame(raf);
-        };
-        requestAnimationFrame(raf);
-      }
+      import '../scripts/motion';
     </script>
   </body>
 </html>

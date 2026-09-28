@@ -1,4 +1,6 @@
 ---
+import SplitWords from './SplitWords.astro';
+
 export interface Props {
   id?: string;
   eyebrow?: string;
@@ -31,22 +33,22 @@ const eyebrowClass = tone === 'ink' ? 'eyebrow eyebrow--light' : 'eyebrow';
 const alignClass = align === 'center' ? 'text-center mx-auto' : 'text-left';
 ---
 
-<section id={id} class={`${toneClass} py-24 sm:py-32 ${className}`}>
+<section id={id} class={`${toneClass} py-14 sm:py-24 lg:py-32 ${className}`}>
   <div class="mx-auto max-w-7xl px-6 lg:px-10">
     {
       (eyebrow || title || intro) && (
-        <div class={`max-w-2xl ${alignClass} mb-16 sm:mb-20`} data-reveal>
-          {eyebrow && <p class={eyebrowClass}>{eyebrow}</p>}
+        <div class={`max-w-2xl ${alignClass} mb-12 sm:mb-16 lg:mb-20`}>
+          {eyebrow && <p class={eyebrowClass} data-reveal>{eyebrow}</p>}
           {title && (
-            <h2 class={`mt-5 font-serif text-4xl sm:text-5xl ${headingClass}`}>
-              {title}
+            <h2 class={`mt-5 ${headingClass}`} data-split>
+              <SplitWords text={title} />
             </h2>
           )}
           <hr
             class={`rule-gold--short mt-8 ${align === 'center' ? 'mx-auto' : ''}`}
             data-draw
           />
-          {intro && <p class={`mt-8 text-lg leading-relaxed ${introClass}`}>{intro}</p>}
+          {intro && <p class={`mt-8 text-lg leading-relaxed ${introClass}`} data-reveal>{intro}</p>}
         </div>
       )
     }

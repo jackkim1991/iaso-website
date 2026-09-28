@@ -1,0 +1,55 @@
+---
+import Section from '../components/Section.astro';
+import { pillars, marquee } from '../data/site';
+
+/* The ribbon repeats its items twice so the loop is seamless. */
+const ribbon = [...marquee, ...marquee];
+---
+
+<!-- Continuous ribbon directly under the hero. Pure CSS; pauses on hover and
+     stops entirely under prefers-reduced-motion. -->
+<div class="marquee border-y border-gold/30 bg-cream py-4" aria-hidden="true">
+  <div class="marquee__track">
+    {
+      ribbon.map((item) => (
+        <span class="label flex items-center gap-12 text-neutral">
+          {item}
+          <span class="h-1 w-1 rounded-full bg-gold" />
+        </span>
+      ))
+    }
+  </div>
+</div>
+
+<Section
+  id="why-dpc"
+  eyebrow="Direct Primary Care"
+  title="What changes when insurance leaves the room"
+  intro="Direct Primary Care is a membership between you and your physician. No claims, no networks, no eleven-minute visits. Here is what that buys you."
+>
+  <ul class="grid gap-px border border-gold/25 bg-gold/25 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      pillars.map((pillar) => (
+        <li class="lift group relative flex flex-col bg-cream p-8 sm:p-10" data-reveal>
+          <p class="flex items-baseline gap-2">
+            <span class="font-serif text-4xl font-semibold text-ink tabular-nums sm:text-5xl">
+              {pillar.stat}
+            </span>
+          </p>
+          <p class="mt-1 text-[11px] font-medium uppercase tracking-[0.22em] text-gold-text">
+            {pillar.statLabel}
+          </p>
+          <hr class="rule-gold--short mt-6" data-draw />
+          <h3 class="mt-6 font-serif text-2xl text-ink">{pillar.title}</h3>
+          <p class="mt-3 leading-relaxed text-neutral">{pillar.body}</p>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="mx-auto mt-12 max-w-2xl text-center text-sm leading-relaxed text-neutral" data-reveal>
+    Direct Primary Care is not health insurance. We recommend members keep a
+    high-deductible or catastrophic plan for hospitalization, emergencies, and
+    specialist care outside this practice.
+  </p>
+</Section>

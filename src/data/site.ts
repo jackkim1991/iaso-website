@@ -10,9 +10,11 @@ export const site = {
   name: 'IASO MD',
   legalName: 'IASO MD',
   url: 'https://iasomd.com',
-  tagline: 'Korean skincare science, led by your physician.',
+  tagline: 'Your physician, directly.',
+  /* Second line of the hero headline, set in italic gold. */
+  taglineLine2: 'Unhurried primary care, by membership.',
   description:
-    'IASO MD is a physician-led Direct Primary Care and Korean aesthetics clinic blending K-beauty skincare science with unhurried, membership-based primary care.',
+    'IASO MD is a physician-led Direct Primary Care practice in Washington. One flat monthly membership, unlimited access to your own doctor, no insurance in the room — with Korean aesthetics available alongside.',
   /* Named for Iaso, the Greek goddess of healing and recovery. */
   motto: 'Healing is a process.',
   mottoAttribution: 'Iaso — Greek goddess of recovery',
@@ -48,13 +50,69 @@ export const contact = {
  * turns these into a scroll without writing a #fragment into the address bar.
  */
 export const nav = [
-  { label: 'About', href: '/#about' },
-  { label: 'Services', href: '/#services' },
   { label: 'Membership', href: '/#membership' },
   { label: 'How it works', href: '/#how-it-works' },
-  { label: 'Results', href: '/#gallery' },
+  { label: 'Your physician', href: '/#about' },
+  { label: 'Services', href: '/#services' },
+  { label: 'Aesthetics', href: '/#glow' },
   { label: 'FAQ', href: '/#faq' },
   { label: 'Contact', href: '/#contact' },
+];
+
+/**
+ * The six reasons to choose IASO Care over an insurance-billed practice.
+ * Rendered as the first section after the hero — the DPC pitch comes before
+ * anything about aesthetics.
+ */
+export const pillars = [
+  {
+    title: 'Same-day access',
+    body: 'Sick today, seen today. Text your physician and get an answer from a doctor, not a call center.',
+    stat: '24h',
+    statLabel: 'max wait for a reply',
+  },
+  {
+    title: 'One flat fee',
+    body: 'A single monthly membership. No copays, no deductibles, no surprise bill six weeks later.',
+    stat: '$0',
+    statLabel: 'per-visit charge',
+  },
+  {
+    title: 'Unhurried visits',
+    body: 'Thirty to sixty minutes, not eleven. Enough time to hear the whole story before deciding anything.',
+    stat: '30–60',
+    statLabel: 'minutes per visit',
+  },
+  {
+    title: 'A small panel',
+    body: 'The practice is capped so your physician can actually know you. Access is real because the roster is short.',
+    stat: '[N]',
+    statLabel: 'member cap',
+  },
+  {
+    title: 'Wholesale labs & meds',
+    body: 'Common labs, imaging, and generic medications at our negotiated cost — often a fraction of an insured price.',
+    stat: 'up to 90%',
+    statLabel: 'below retail',
+  },
+  {
+    title: 'HSA-eligible',
+    body: 'Pay your membership with pre-tax HSA dollars under IRS Notice 2026-05. Every Care tier sits under the cap.',
+    stat: '2026',
+    statLabel: 'new federal rule',
+  },
+];
+
+/** Continuous ribbon under the hero. Short, scannable, repeats. */
+export const marquee = [
+  'Direct Primary Care',
+  'No copays',
+  'Same-day visits',
+  'Text your physician',
+  'Wholesale labs & medications',
+  'HSA-eligible',
+  'Medical dermatology included',
+  'Washington State',
 ];
 
 export const physician = {
@@ -111,62 +169,104 @@ export const trust = {
 /* -------------------------------------------------------------------------- */
 /*  Services                                                                   */
 /* -------------------------------------------------------------------------- */
-
 export type Service = {
   title: string;
   summary: string;
   points: string[];
+  /** Which membership track the service belongs to. Care renders first. */
+  group: 'care' | 'glow';
   video?: string;
 };
 
 export const services: Service[] = [
+  /* ------------------------------------------------ IASO Care — primary care */
   {
+    group: 'care',
+    title: 'Everyday & Urgent Care',
+    summary:
+      'Infections, injuries, rashes, the thing that started yesterday. Seen the same day or the next, in person or by video, without a copay.',
+    points: ['Same-day and next-day visits', 'Video visits and direct messaging', 'In-office procedures and minor injuries'],
+    video: '/videos/dpc.mp4',
+  },
+  {
+    group: 'care',
+    title: 'Chronic Condition Management',
+    summary:
+      'Blood pressure, diabetes, cholesterol, thyroid, asthma. Managed continuously by the physician who knows your history — not reset every visit.',
+    points: ['Ongoing monitoring and titration', 'Wholesale-priced labs and medications', 'Coordination with specialists when needed'],
+  },
+  {
+    group: 'care',
+    title: 'Preventive Medicine',
+    summary:
+      'An unhurried annual physical, screening on a schedule that fits your risk, and a plan for the next decade, not just the next appointment.',
+    points: ['Annual comprehensive physical', 'Age- and risk-based screening', 'Vaccinations and travel medicine'],
+  },
+  {
+    group: 'care',
+    title: 'Medical Dermatology',
+    summary:
+      'Acne, rosacea, eczema, suspicious spots. Included in your membership, because skin is medicine before it is aesthetics.',
+    points: ['Acne, rosacea, and eczema protocols', 'Skin checks and lesion evaluation', 'Biopsies and minor removals'],
+  },
+  {
+    group: 'care',
+    title: 'Mental Health & Lifestyle',
+    summary:
+      'Sleep, stress, mood, weight. Addressed in primary care with the time it takes, and referred out only when that is genuinely the right call.',
+    points: ['Anxiety and depression management', 'Sleep and metabolic health', 'Referral and care coordination'],
+  },
+  {
+    group: 'care',
+    title: 'Labs, Imaging & Medications',
+    summary:
+      'Draws done in-office, results explained by your physician, and common medications dispensed at our cost.',
+    points: ['In-office blood draws', 'Negotiated imaging rates', 'Generic medications at wholesale'],
+  },
+
+  /* ------------------------------------------------- IASO Glow — aesthetics */
+  {
+    group: 'glow',
     title: 'Korean Aesthetics',
     summary:
       'Barrier-first aesthetic care in the Korean tradition: treat the cause, protect the skin, then refine. [DESCRIPTION — ONE OR TWO SENTENCES ABOUT YOUR APPROACH.]',
-    points: ['Acne and rosacea protocols', 'Pigmentation and melasma', 'Eczema and barrier repair'],
+    points: ['Pigmentation and melasma', 'Texture and pore refinement', 'Barrier repair and glass-skin protocols'],
     video: '/videos/skin.mp4',
   },
   {
+    group: 'glow',
     title: 'Botox & Neuromodulators',
     summary:
       'Conservative, anatomy-led dosing for expression lines — the goal is a rested face, not a still one. [DESCRIPTION — INCLUDE PRODUCTS OFFERED AND TYPICAL UNIT RANGES.]',
     points: ['Glabella, forehead, and crow’s feet', 'Masseter and jawline slimming', 'Hyperhidrosis'],
   },
   {
+    group: 'glow',
     title: 'Laser Treatments',
     summary:
       'Device-based resurfacing and vascular work, selected for the skin type in front of us. [DESCRIPTION — LIST THE DEVICES AND PLATFORMS YOU WILL OFFER.]',
     points: ['Pigment and vascular lasers', 'Resurfacing and texture', 'Structured post-treatment care'],
   },
   {
+    group: 'glow',
     title: 'Skin Boosters',
     summary:
       'Injectable hydration and biostimulation aimed at skin quality rather than volume. [DESCRIPTION — NAME THE BOOSTERS AND THE EXPECTED SERIES LENGTH.]',
     points: ['Polynucleotide and PDRN', 'Hyaluronic skin boosters', 'Microneedling with actives'],
   },
   {
+    group: 'glow',
     title: 'Facials & Glass Skin',
     summary:
       'The signature multi-step ritual: deep cleanse, gentle exfoliation, extraction, infusion, and a finish that reads as lit from within. [DESCRIPTION — TREATMENT LENGTH AND WHAT IS INCLUDED.]',
     points: ['Glass-skin signature facial', 'Hydrating and calming protocols', 'Event-ready preparation'],
   },
   {
+    group: 'glow',
     title: 'K-Beauty Skincare Consultation',
     summary:
       'A physician-built routine using products you can actually sustain, with the reasoning behind every step. [DESCRIPTION — CONSULT LENGTH AND FOLLOW-UP CADENCE.]',
     points: ['Full routine build', 'Ingredient and layering guidance', 'Seasonal adjustments'],
-  },
-  {
-    title: 'Primary Care & DPC Membership',
-    summary:
-      'Unlimited, unhurried access to your own physician — chronic disease management, urgent concerns, and prevention, without a clock running in the corner.',
-    points: [
-      'Unlimited visits and telehealth',
-      'Wholesale labs, imaging, and medications',
-      'Annual comprehensive physical',
-    ],
-    video: '/videos/dpc.mp4',
   },
 ];
 

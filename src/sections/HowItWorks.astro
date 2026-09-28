@@ -1,67 +1,56 @@
 ---
 import Section from '../components/Section.astro';
 import { careSteps, glowSteps } from '../data/site';
+
+const tracks = [
+  { name: 'IASO Care', kicker: 'Your medical home', steps: careSteps },
+  { name: 'IASO Glow', kicker: 'Added when you want it', steps: glowSteps },
+];
 ---
 
 <Section
   id="how-it-works"
   eyebrow="How it works"
-  title="Two tracks, one physician"
-  intro="Care is your medical home. Glow is what you add when you want to work on your skin. Joining either takes minutes."
+  title="Joining takes minutes. Staying is the point."
+  intro="Care is the relationship — one physician, unlimited access, no clock. Glow is what you add on top when you want to work on your skin."
 >
   <div class="grid gap-16 lg:grid-cols-[1.25fr_1fr] lg:gap-20">
-    <!-- ------------------------------------------------------- IASO Care -->
-    <div>
-      <div class="flex items-baseline gap-4">
-        <h3 class="font-serif text-2xl text-ink">IASO Care</h3>
-        <hr class="rule-gold flex-1" data-draw />
-      </div>
+    {
+      tracks.map((track) => (
+        <div>
+          <div class="flex items-baseline gap-4">
+            <div>
+              <p class="eyebrow">{track.kicker}</p>
+              <h3 class="mt-2 font-serif text-2xl text-ink">{track.name}</h3>
+            </div>
+            <hr class="rule-gold mt-3 flex-1" data-draw />
+          </div>
 
-      <ol class="mt-10 space-y-10">
-        {
-          careSteps.map((step, index) => (
-            <li class="grid grid-cols-[3rem_1fr] gap-6" data-reveal>
-              <span
-                class="font-serif text-3xl leading-none text-gold-text tabular-nums"
-                aria-hidden="true"
-              >
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <div>
-                <h4 class="font-serif text-xl text-ink">{step.title}</h4>
-                <p class="mt-2 leading-relaxed text-neutral">{step.body}</p>
-              </div>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-
-    <!-- ------------------------------------------------------- IASO Glow -->
-    <div>
-      <div class="flex items-baseline gap-4">
-        <h3 class="font-serif text-2xl text-ink">IASO Glow</h3>
-        <hr class="rule-gold flex-1" data-draw />
-      </div>
-
-      <ol class="mt-10 space-y-10">
-        {
-          glowSteps.map((step, index) => (
-            <li class="grid grid-cols-[3rem_1fr] gap-6" data-reveal>
-              <span
-                class="font-serif text-3xl leading-none text-gold-text tabular-nums"
-                aria-hidden="true"
-              >
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <div>
-                <h4 class="font-serif text-xl text-ink">{step.title}</h4>
-                <p class="mt-2 leading-relaxed text-neutral">{step.body}</p>
-              </div>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
+          <!-- A gold line draws down the numbers as you scroll, and each step
+               brightens as it reaches the middle of the screen. -->
+          <ol class="relative mt-10 space-y-10 pl-0">
+            <span
+              class="absolute top-2 bottom-2 left-[1.4rem] w-px bg-gold/70"
+              aria-hidden="true"
+              data-progress
+            />
+            {track.steps.map((step, index) => (
+              <li class="relative grid grid-cols-[3rem_1fr] gap-6" data-step>
+                <span
+                  class="relative z-10 flex h-12 w-12 items-center justify-center bg-cream font-serif text-2xl leading-none text-gold-text tabular-nums"
+                  aria-hidden="true"
+                >
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <div class="pt-2">
+                  <h4 class="font-serif text-xl text-ink">{step.title}</h4>
+                  <p class="mt-2 leading-relaxed text-neutral">{step.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))
+    }
   </div>
 </Section>

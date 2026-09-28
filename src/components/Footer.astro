@@ -26,7 +26,7 @@ const year = new Date().getFullYear();
               <li>
                 <a
                   href={item.href}
-                  class="text-sm text-cream/80 transition-colors hover:text-gold-light"
+                  class="inline-flex min-h-[44px] items-center text-sm text-cream/80 transition-colors hover:text-gold-light"
                 >
                   {item.label}
                 </a>
@@ -44,14 +44,14 @@ const year = new Date().getFullYear();
             {contact.addressLocality}, {contact.addressRegion} {contact.postalCode}
           </p>
           <p>
-            <a href={contact.phoneHref} class="transition-colors hover:text-gold-light">
+            <a href={contact.phoneHref} class="inline-flex min-h-[44px] items-center transition-colors hover:text-gold-light">
               {contact.phone}
             </a>
           </p>
           <p>
             <a
               href={`mailto:${contact.email}`}
-              class="transition-colors hover:text-gold-light"
+              class="inline-flex min-h-[44px] items-center transition-colors hover:text-gold-light"
             >
               {contact.email}
             </a>
@@ -63,7 +63,7 @@ const year = new Date().getFullYear();
               <li>
                 <a
                   href={s.href}
-                  class="text-[11px] uppercase tracking-[0.18em] text-cream/60 transition-colors hover:text-gold-light"
+                  class="inline-flex min-h-[44px] items-center text-[11px] uppercase tracking-[0.18em] text-cream/60 transition-colors hover:text-gold-light"
                 >
                   {s.label}
                 </a>
